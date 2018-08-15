@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- DTD 선언 -->
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="BoardMapper">
+	<!-- 데이터 삽입 -->
+	<insert id="create">
+		insert into board (title, content, writer)
+		values( #{title}, #{content}, #{writer})
+	</insert>
+	
+	<!-- 가장 최근에 삽입된 행 검색 -->
+	<select id="read" resultType="com.gguri.swp.domain.BoardVO">
+		select 
+			*
+		from
+			board
+		where bno = (select max(bno) from board) 
+	</select>
+	<!-- 가장 최근에 삽입된 행 수정 -->
+	<update id="update">
+		update board
+		set title = #{title}, content = #{content}
+		where bno = (select max(bno) from (select max(bno) from board) b)
+	</update>
+	<!-- 가장 최근에 삽입된 행 삭제 -->
+	<delete id="delete">
+		delete from board where bno = (select max(bno) from (select max(bno) from board) b)
+	</delete>
+	<!-- board 전체 행 조회 -->
+	<select id="listAll" resultType="com.gguri.swp.domain.BoardVO">
+		select *
+		from board
+		order by bno desc, regdate desc
+	</select>	
+</mapper>
