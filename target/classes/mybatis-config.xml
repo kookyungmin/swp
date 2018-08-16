@@ -3,5 +3,8 @@
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
+	<!-- XML Mapper를 이용하는 데 parameterType이나 resultType에 패키지명을 포함하지 않아도 되게함 -->
+	<typeAliases>
+		<package name="com.gguri.swp.domain" />
+	</typeAliases>
 </configuration>

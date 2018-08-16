@@ -22,7 +22,7 @@ public class BoardDAOImpl implements BoardDAO{
 	private static String UPDATE = NS + ".update";
 	private static String DELETE = NS + ".delete";
 	private static String LISTALL = NS + ".listAll";
-	
+	private static String GETMAXBNO = NS + ".getMaxBno";
 	@Override
 	public void create(BoardVO board) throws Exception {
 		session.insert(CREATE, board);
@@ -30,8 +30,8 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public BoardVO read() throws Exception {
-		return session.selectOne(READ);
+	public BoardVO read(Integer bno) throws Exception {
+		return session.selectOne(READ,bno);
 	}
 
 	@Override
@@ -41,8 +41,8 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public void delete() throws Exception {
-		session.delete(DELETE);
+	public void delete(Integer bno) throws Exception {
+		session.delete(DELETE, bno);
 		
 	}
 
@@ -50,6 +50,11 @@ public class BoardDAOImpl implements BoardDAO{
 	public List<BoardVO> listAll() throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectList(LISTALL);
+	}
+
+	@Override
+	public Integer getMaxBno() throws Exception {
+		return session.selectOne(GETMAXBNO);
 	}
 
 }

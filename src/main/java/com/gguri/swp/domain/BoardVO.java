@@ -8,6 +8,13 @@ public class BoardVO {
 	private String content;
 	private String writer;
 	private Date regdate;
+	private int viewcnt;
+	public int getViewcnt() {
+		return viewcnt;
+	}
+	public void setViewcnt(int viewcnt) {
+		this.viewcnt = viewcnt;
+	}
 	public Integer getBno() {
 		return bno;
 	}
@@ -41,6 +48,7 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [bno=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer + ", regdate="
-				+ regdate + "]";
+				+ regdate + ", viewcnt=" + viewcnt + "]";
 	}
+	
 }

@@ -12,28 +12,32 @@
 		values( #{title}, #{content}, #{writer})
 	</insert>
 	
-	<!-- 가장 최근에 삽입된 행 검색 -->
-	<select id="read" resultType="com.gguri.swp.domain.BoardVO">
+	<!-- 행 검색 -->
+	<select id="read" resultType="BoardVO">
 		select 
 			*
 		from
 			board
-		where bno = (select max(bno) from board) 
+		where bno = #{bno}
 	</select>
-	<!-- 가장 최근에 삽입된 행 수정 -->
+	<!-- 행 수정 -->
 	<update id="update">
 		update board
 		set title = #{title}, content = #{content}
-		where bno = (select max(bno) from (select max(bno) from board) b)
+		where bno = #{bno}
 	</update>
-	<!-- 가장 최근에 삽입된 행 삭제 -->
+	<!-- 행 삭제 -->
 	<delete id="delete">
-		delete from board where bno = (select max(bno) from (select max(bno) from board) b)
+		delete from board where bno = #{bno}
 	</delete>
 	<!-- board 전체 행 조회 -->
-	<select id="listAll" resultType="com.gguri.swp.domain.BoardVO">
+	<select id="listAll" resultType="BoardVO">
 		select *
 		from board
 		order by bno desc, regdate desc
+	</select>
+	<!-- bno 최대 구하기 -->
+	<select id="getMaxBno" resultType="Integer">
+		select max(bno) from board
 	</select>	
 </mapper>

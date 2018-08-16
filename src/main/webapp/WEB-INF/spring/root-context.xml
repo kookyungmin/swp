@@ -29,4 +29,6 @@
 </bean>
 <context:component-scan base-package="com.gguri.swp.persistence">
 </context:component-scan>
+<context:component-scan base-package="com.gguri.swp.service">
+</context:component-scan>
 </beans>

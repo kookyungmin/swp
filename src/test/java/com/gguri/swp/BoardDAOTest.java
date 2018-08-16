@@ -23,34 +23,37 @@ public class BoardDAOTest {
 	
 	private static final Logger logger =
 		LoggerFactory.getLogger(BoardDAOTest.class);
-	private static boolean flag = false;
-	private static int cnt = 0;
+	private static boolean didupdate = false;
+	private static int maxbno = 0;
+	
 	
 	@Before
-	public void selectTest() throws Exception {
-		if (flag == false) {
+	public void getMaxBno() throws Exception{
+		if(maxbno == 0) {
 			boardDAO.create(createBoard("새로운 글을 넣음","새로운 글을 넣음"));
-			flag = true;
+			maxbno=boardDAO.getMaxBno();
 		}
 	}
 	
 	@Test
 	public void readTest() throws Exception {
-		logger.info(boardDAO.read().toString());
-		cnt++;
+		logger.info(boardDAO.read(maxbno).toString());
 	}
 	
 	@Test
 	public void updateTest() throws Exception{
-		boardDAO.update(createBoard("수정된 글임","수정 테스트"));
-		cnt++;
+		BoardVO board = createBoard("글이 수정됨","수정테스트");
+		board.setBno(maxbno);
+		boardDAO.update(board);
+		didupdate = true;
 	}
 	
 	@After
 	public void deleteTest() throws Exception{
-		if(cnt == 2) {
+		if (didupdate  == true) {
 			logger.info(boardDAO.listAll().toString());
-			boardDAO.delete();
+			boardDAO.delete(maxbno);
+			didupdate = false;
 		}
 	}
 	
