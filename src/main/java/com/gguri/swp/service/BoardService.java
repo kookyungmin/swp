@@ -3,7 +3,7 @@ package com.gguri.swp.service;
 import java.util.List;
 
 import com.gguri.swp.domain.BoardVO;
-
+//수정
 public interface BoardService {
 	public void regist(BoardVO board) throws Exception;
 	public BoardVO read(Integer bno) throws Exception;
