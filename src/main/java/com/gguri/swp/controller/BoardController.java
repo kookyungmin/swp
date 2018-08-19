@@ -36,9 +36,18 @@ public class BoardController {
 		
 		service.regist(board);
 		
-		rttr.addFlashAttribute("msg", "success");
+		rttr.addFlashAttribute("result", "success");
 		
-		//return "/board/success";
+		return "redirect:/board/listAll";
+	}
+	
+	@RequestMapping(value = "/dummy")
+	public String dummyPOST(RedirectAttributes rttr) throws Exception{
+		logger.info("dummy post.....");
+		
+		service.dummy();
+		
+		rttr.addFlashAttribute("result", "success");
 		return "redirect:/board/listAll";
 	}
 	

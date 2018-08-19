@@ -41,5 +41,27 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardVO> listAll() throws Exception {
 		return boardDAO.listAll();
 	}
+	
+	//dummy 추가
+	@Override
+	public void dummy() throws Exception {
+		int maxBno;
+		if(boardDAO.getMaxBno() == null)
+		{
+			maxBno = 0;
+		}else {
+			maxBno = boardDAO.getMaxBno();
+		}
+		BoardVO board = new BoardVO();
+		
+		for(int i = maxBno + 1; i < maxBno + 101; i++ ) {
+			board.setBno(i);
+			board.setTitle("dummytitle"+i);
+			board.setContent("연습용 게시물입니다!");
+			board.setWriter("꾸리");
+			regist(board);
+		}
+		
+	}
 
 }

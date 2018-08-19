@@ -1,5 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -28,10 +26,11 @@
 	</c:forEach>
 	</table>
     <a href="/board/register"><button class="btn btn-primary">새글등록</button></a>
+    <a href="/board/dummy"><button class="btn btn-primary">dummy생성</button></a>
 	<script>
-		var result = '${msg}';
+		var result = '${result}';
 		if (result === 'success'){
-			alert("OK");
+			alert("새글 등록이 완료되었습니다!");
 		}
 	</script>
 <%@include file="../include/footer.jsp" %>
