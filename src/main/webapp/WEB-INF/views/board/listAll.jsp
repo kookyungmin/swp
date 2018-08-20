@@ -6,8 +6,6 @@
 
 <%@include file="../include/header.jsp" %>
 
-
-	 
 	<div class="alert alert-info" role="alert" style="display : none;">새 글이 등록되었습니다.</div>	
 	<div class="alert alert-danger" role="alert" style="display : none;">글이 삭제되었습니다.</div>	
 
