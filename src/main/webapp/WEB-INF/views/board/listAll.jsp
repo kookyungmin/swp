@@ -5,6 +5,12 @@
 <%@ page session="false" %>
 
 <%@include file="../include/header.jsp" %>
+
+
+	 
+	<div class="alert alert-info" role="alert" style="display : none;">새 글이 등록되었습니다.</div>	
+	<div class="alert alert-danger" role="alert" style="display : none;">글이 삭제되었습니다.</div>	
+
 	
 	<table class="table table-bordered">
 	
@@ -31,8 +37,19 @@
     </div>
 	<script>
 		var result = '${result}';
-		if (result === 'success'){
-			alert("새글 등록이 완료되었습니다!");
-		}
+		$(function(){
+			if(result === 'success'){
+				$('.alert-info').fadeIn(2000,function(){
+					$('.alert-info').fadeOut(1000);
+				});
+				
+			}
+			if(result === 'removeOK'){
+				$('.alert-danger').fadeIn(2000,function(){
+					$('.alert-danger').fadeOut(1000);
+				});
+				
+			}
+		})
 	</script>
 <%@include file="../include/footer.jsp" %>
