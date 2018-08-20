@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gguri.swp.domain.BoardVO;
@@ -49,6 +49,12 @@ public class BoardController {
 		
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/board/listAll";
+	}
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	public void read(@RequestParam("bno") Integer bno, Model model) throws Exception{
+		logger.info("read GET...");
+		BoardVO board = service.read(bno);
+		model.addAttribute(board);
 	}
 	
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
