@@ -6,15 +6,15 @@ import com.gguri.swp.domain.BoardVO;
 
 public interface BoardDAO {
 	
-	public void create(BoardVO board) throws Exception;
+	 void create(BoardVO board) throws Exception;
 	
-	public BoardVO read(Integer bno) throws Exception;
+	 BoardVO read(Integer bno) throws Exception;
 	
-	public void update(BoardVO board) throws Exception;
+	 void update(BoardVO board) throws Exception;
 	
-	public void delete(Integer bno) throws Exception;
+	 void delete(Integer bno) throws Exception;
 	
-	public List<BoardVO> listAll() throws Exception;
+	 List<BoardVO> listAll() throws Exception;
 	
-	public Integer getMaxBno() throws Exception;
+	 Integer getMaxBno() throws Exception;
 }
