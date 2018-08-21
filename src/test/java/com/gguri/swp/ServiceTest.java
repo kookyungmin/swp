@@ -1,5 +1,7 @@
 package com.gguri.swp;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gguri.swp.domain.BoardVO;
+import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.service.BoardService;
 
 //Runner 클래스(테스트 메소드를 실행하는 클래스) 를 SpringJUnit4ClassRunner로 함
@@ -24,6 +27,25 @@ public class ServiceTest {
 	public void readTest() throws Exception {
 		BoardVO board = service.read(2);
 		logger.debug(board.toString());
+	}
+//	@Test
+//	public void listPageTest() throws Exception{
+//		List<BoardVO> boards = service.listPage(1);
+//		for (BoardVO board : boards) {
+//			logger.info(board.getBno()+ ":" + board.getTitle());
+//		}
+//		
+//	}
+	@Test
+	public void listCriteriaTest() throws Exception{
+		Criteria cri = new Criteria();
+		cri.setPage(10);
+		cri.setPerPageNum(3);
+		List<BoardVO> boards = service.listCriteria(cri);
+		for (BoardVO board : boards) {
+			logger.info(board.getBno()+ ":" + board.getTitle());
+		}
+		
 	}
 
 }

@@ -3,6 +3,7 @@ package com.gguri.swp.persistence;
 import java.util.List;
 
 import com.gguri.swp.domain.BoardVO;
+import com.gguri.swp.domain.Criteria;
 
 public interface BoardDAO {
 	
@@ -17,4 +18,9 @@ public interface BoardDAO {
 	 List<BoardVO> listAll() throws Exception;
 	
 	 Integer getMaxBno() throws Exception;
+	 
+	 List<BoardVO> listPage(int page) throws Exception;
+	 
+	 List<BoardVO> listCriteria(Criteria cri) throws Exception;
+	 
 }

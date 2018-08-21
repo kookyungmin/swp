@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.gguri.swp.domain.BoardVO;
+import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.persistence.BoardDAO;
 
 @Service
@@ -62,6 +63,16 @@ public class BoardServiceImpl implements BoardService{
 			regist(board);
 		}
 		
+	}
+
+	@Override
+	public List<BoardVO> listPage(int page) throws Exception {
+		return boardDAO.listPage(page);
+	}
+
+	@Override
+	public List<BoardVO> listCriteria(Criteria cri) throws Exception {
+		return boardDAO.listCriteria(cri);
 	}
 
 }

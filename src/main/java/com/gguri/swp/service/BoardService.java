@@ -3,6 +3,7 @@ package com.gguri.swp.service;
 import java.util.List;
 
 import com.gguri.swp.domain.BoardVO;
+import com.gguri.swp.domain.Criteria;
 
 public interface BoardService {
 	void regist(BoardVO board) throws Exception;
@@ -12,4 +13,8 @@ public interface BoardService {
 	List<BoardVO> listAll() throws Exception;
 	//dummy 추가
 	void dummy() throws Exception;
+	//listPage
+	List<BoardVO> listPage(int page) throws Exception;
+	//listCriteria
+	List<BoardVO> listCriteria(Criteria cri) throws Exception;
 }
