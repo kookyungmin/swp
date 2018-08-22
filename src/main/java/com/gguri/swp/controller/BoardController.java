@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gguri.swp.domain.BoardVO;
+import com.gguri.swp.domain.Criteria;
+import com.gguri.swp.domain.PageMaker;
 import com.gguri.swp.service.BoardService;
 
 @Controller
@@ -48,7 +50,7 @@ public class BoardController {
 		service.dummy();
 		
 		rttr.addFlashAttribute("result", "success");
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public void read(@RequestParam("bno") Integer bno, Model model) throws Exception{
@@ -85,4 +87,16 @@ public class BoardController {
 		model.addAttribute("list",boards);
 	}
 	
+	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
+	public void listPage(Criteria cri, Model model) throws Exception{
+		logger.info(cri.toString());
+		List<BoardVO> boards = service.listCriteria(cri);
+		model.addAttribute("list",boards);
+		PageMaker pageMaker = new PageMaker(cri);
+		int totalCount = service.getTotalCount();
+		//@ToDo
+		//pageMaker.setTotalCount(113);
+		pageMaker.setTotalCount(totalCount);
+		model.addAttribute("pageMaker", pageMaker);
+	}
 }

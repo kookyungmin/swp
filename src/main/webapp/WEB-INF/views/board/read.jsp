@@ -9,6 +9,7 @@
 	<div class="alert alert-warning" role="alert">글이 수정되었습니다.</div>	
 </c:if>	
 	<div class="box-body">
+		<span><b>글번호:</b> ${boardVO.bno}</span>	
 		<div class="form-group">
 			<label for="title">Title</label>
 			<input type="text" id="title" name="title" class="form-control" value="${boardVO.title}" readonly="readonly"/>		
@@ -22,10 +23,10 @@
 			<input type="text" id="writer" name="writer" class="form-control" value="${boardVO.writer}" readonly="readonly"/>		
 		</div>
 	</div>
-	<div class="box-footer text-right">
-		<button id="btn-remove-read" class="btn btn-danger">delete</button>
+	<div>
 		<a href="/board/update?bno=${boardVO.bno}" class="btn btn-warning">update</a>
 		<a href="/board/listAll" class="btn btn-primary">LIST ALL</a>
+		<button id="btn-remove-read" class="btn btn-danger">delete</button>
 	</div>
 	<script>
 		$(function(){

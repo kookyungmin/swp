@@ -22,5 +22,7 @@ public interface BoardDAO {
 	 List<BoardVO> listPage(int page) throws Exception;
 	 
 	 List<BoardVO> listCriteria(Criteria cri) throws Exception;
+
+	 int getTotalCount() throws Exception;
 	 
 }

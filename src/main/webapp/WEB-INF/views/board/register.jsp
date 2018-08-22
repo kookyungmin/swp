@@ -19,7 +19,7 @@
 				<input type="text" id="writer" name="writer" class="form-control" placeholder="Enter Writer"/>		
 			</div>
 		</div>
-		<div class="box-footer">
+		<div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</div>
 	</form>

@@ -29,7 +29,7 @@
 		</tr>
 	</c:forEach>
 	</table>
-	<div class="box-footer text-right">
+	<div>
 		<a href="/board/dummy"><button class="btn btn-danger">dummy생성</button></a>
     	<a href="/board/register"><button class="btn btn-primary">새글등록</button></a>
     </div>

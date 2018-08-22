@@ -26,6 +26,7 @@ public class BoardDAOImpl implements BoardDAO{
 	private static String GETMAXBNO = NS + ".getMaxBno";
 	private static String LISTPAGE = NS + ".listPage";
 	private static String LISTCRITERIA = NS + ".listCriteria";
+	private static String GETTOTALCOUNT = NS + ".gettotalcount";
 	@Override
 	public void create(BoardVO board) throws Exception {
 		session.insert(CREATE, board);
@@ -74,6 +75,11 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<BoardVO> listCriteria(Criteria cri) throws Exception {
 		return session.selectList(LISTCRITERIA,cri);
+	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		return session.selectOne(GETTOTALCOUNT);
 	}
 
 }

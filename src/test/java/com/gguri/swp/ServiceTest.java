@@ -37,6 +37,11 @@ public class ServiceTest {
 //		
 //	}
 	@Test
+	public void getTotalCountTest() throws Exception {
+		Integer totalCount = service.getTotalCount();
+		logger.info("totalCount: "+totalCount.toString());
+	}
+	@Test
 	public void listCriteriaTest() throws Exception{
 		Criteria cri = new Criteria();
 		cri.setPage(10);

@@ -6,7 +6,7 @@
 <%@include file="../include/header.jsp" %>
 	<form role="form" method="post">
 		<div class="box-body">
-			<label for="bno">글번호: ${boardVO.bno}</label>
+			<span><b>글번호:</b> ${boardVO.bno}</span>
 			<input type="hidden" name="bno" value="${boardVO.bno }" />
 			<div class="form-group">
 				<label for="title">Title</label>
@@ -21,7 +21,7 @@
 				<input type="text" id="writer" name="writer" class="form-control" value="${boardVO.writer}" readonly="readonly"/>		
 			</div>
 		</div>
-		<div class="box-footer">
+		<div>
 			<button type="submit" class="btn btn-primary">Save</button>
 			<a href="/board/read?bno=${boardVO.bno}" class="btn btn-danger">Cancel</a>
 		</div>

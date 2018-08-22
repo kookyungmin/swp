@@ -56,4 +56,9 @@
 		order by bno desc, regdate desc
 		limit #{pageStart}, #{perPageNum}
 	</select>
+	<select id="gettotalcount" resultType="int">
+		select count(bno)
+		from board
+		where bno > 0;
+	</select>
 </mapper>
