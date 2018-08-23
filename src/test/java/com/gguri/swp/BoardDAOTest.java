@@ -69,28 +69,4 @@ public class BoardDAOTest {
 		return board;
 	}
 	
-	@Test
-	public void testURI() throws Exception{
-		int bno = 1;
-		int perPageNum = 20;
-//		UriComponents uriComponets = UriComponentsBuilder.newInstance()
-//				.path("/board/read")
-//				.queryParam("bno", bno)
-//				.queryParam("perPageNum", perPageNum)
-//				.build();
-		UriComponents uriComponets = UriComponentsBuilder.newInstance()
-		.path("/{module}/{page}")
-		.queryParam("bno", bno)
-		.queryParam("perPageNum", perPageNum)
-		.build()
-		.expand("board","read")
-		.encode();
-		
-		
-		String uri = "/board/read?bno=" + bno + "&perPageNum=" + perPageNum;
-		logger.info(uri);
-		logger.info(uriComponets.toString());
-		
-		assertEquals(uri, uriComponets.toString());
-	}
 }

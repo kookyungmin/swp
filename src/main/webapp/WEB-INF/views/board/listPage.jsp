@@ -9,15 +9,22 @@
 	<div class="alert alert-danger" role="alert" style="display : none;">글이 삭제되었습니다.</div>	
 
 	
-	
-	<div class="col-md-1 col-md-offset-11">
-		<select class="form-control" id="perPageSel">
-  			<option value="10">10</option>
-  			<option value="15">15</option>
-  			<option value="20">20</option>
-		</select>
+	<div class="row">
+		<div class="col-md-11">
+			<form class="form-inline">
+				<input class="form-control" type="text" id="keyword" name="keyword" 
+				value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요"/>
+				<button class="btn btn-primary">Search</button>
+			</form>
+		</div>
+		<div class="col-md-1 text-right">
+			<select class="form-control" id="perPageSel">
+	  			<option value="10">10</option>
+	  			<option value="15">15</option>
+	  			<option value="20">20</option>
+			</select>
+		</div>
 	</div>
-	
 	
 	
 	<table class="table table-bordered">
