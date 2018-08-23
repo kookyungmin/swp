@@ -7,7 +7,11 @@
 	<form role="form" method="post">
 		<div class="box-body">
 			<span><b>글번호:</b> ${boardVO.bno}</span>
-			<input type="hidden" name="bno" value="${boardVO.bno }" />
+			
+			<input type="hidden" name="bno" value="${boardVO.bno}" />
+			<input type="hidden" name="page" value="${cri.page}" />
+			<input type="hidden" name="perPageNum" value="${cri.perPageNum}" />
+			
 			<div class="form-group">
 				<label for="title">Title</label>
 				<input type="text" id="title" name="title" class="form-control" value="${boardVO.title}"/>		

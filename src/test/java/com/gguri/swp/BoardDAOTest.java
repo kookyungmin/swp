@@ -1,5 +1,7 @@
 package com.gguri.swp;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.inject.Inject;
 
 import org.junit.After;
@@ -10,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.persistence.BoardDAO;
@@ -63,5 +67,30 @@ public class BoardDAOTest {
 		board.setContent(content);
 		board.setWriter("user00");
 		return board;
+	}
+	
+	@Test
+	public void testURI() throws Exception{
+		int bno = 1;
+		int perPageNum = 20;
+//		UriComponents uriComponets = UriComponentsBuilder.newInstance()
+//				.path("/board/read")
+//				.queryParam("bno", bno)
+//				.queryParam("perPageNum", perPageNum)
+//				.build();
+		UriComponents uriComponets = UriComponentsBuilder.newInstance()
+		.path("/{module}/{page}")
+		.queryParam("bno", bno)
+		.queryParam("perPageNum", perPageNum)
+		.build()
+		.expand("board","read")
+		.encode();
+		
+		
+		String uri = "/board/read?bno=" + bno + "&perPageNum=" + perPageNum;
+		logger.info(uri);
+		logger.info(uriComponets.toString());
+		
+		assertEquals(uri, uriComponets.toString());
 	}
 }

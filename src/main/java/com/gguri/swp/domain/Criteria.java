@@ -1,5 +1,7 @@
 package com.gguri.swp.domain;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class Criteria {
 	private int page;
 	private int perPageNum;
@@ -43,5 +45,10 @@ public class Criteria {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + "]";
 	}
 	
-	
+	public String makeQuery() {
+		return UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", this.perPageNum)
+				.build().toString();
+	}
 }

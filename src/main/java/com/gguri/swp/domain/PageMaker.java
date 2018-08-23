@@ -2,6 +2,8 @@ package com.gguri.swp.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gguri.swp.controller.BoardController;
 
@@ -42,6 +44,14 @@ public class PageMaker {
 		this.prev = (startPage != 1); // startPage 1이 아니면 false
 		this.next = (endPage * perPageNum < totalCount); //아직 더 보여질 페이지가 있으면 true 
 	}
+	
+	public String makeQuery(int page) {
+		return UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", this.cri.getPerPageNum())
+				.build().toString();
+	}
+	
 	
 	public int getDisplayPageCnt() {
 		return displayPageCnt;

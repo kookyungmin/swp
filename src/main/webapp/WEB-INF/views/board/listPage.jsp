@@ -32,7 +32,8 @@
 	<c:forEach items="${list}" var="boardVO">
 		<tr>
 			<td>${ boardVO.bno }</td>
-			<td><a href="/board/read?bno=${boardVO.bno}">${ boardVO.title }</a></td>
+			<!-- <td><a href="/board/read?bno=${boardVO.bno}">${ boardVO.title }</a></td> -->
+			<td><a href="/board/read${pageMaker.makeQuery(pageMaker.cri.page)}&bno=${boardVO.bno}">${boardVO.title}</a></td>
 			<td>${ boardVO.writer}</td>
 			<td><fmt:formatDate pattern="YYYY-MM-dd HH:mm:ss" value="${ boardVO.regdate}"/></td>
 			<td>${ boardVO.viewcnt}</td>
@@ -47,18 +48,21 @@
 	<div class="text-center">
 		<nav aria-label="pagination">
 		  	<ul class="pagination">
+		  	
 			    <li id="page-prev">
-			      	<a href="#" onclick="gogo(${pageMaker.startPage - 1})" aria-label="Prev"><span aria-hidden="true">«</span></a>
+			      	<a href="listPage${pageMaker.makeQuery(pageMaker.startPage - 1)}" onclickX="gogo(${pageMaker.startPage - 1})" aria-label="Prev"><span aria-hidden="true">«</span></a>
 			    </li>
+			    
 			    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
 			    	<li id="page${idx}">
-				    	<a href="#" onclick="gogo(${idx})">
+				    	<a href="listPage${pageMaker.makeQuery(idx)}" onclickX="gogo(${idx})">
 				      		<span>${idx}<span class="sr-only">(current)</span></span>
 				    	</a>
 			    	</li>
 			    </c:forEach>
+			    
 			    <li id="page-next">
-			    	<a href="#" onclick="gogo(${pageMaker.endPage + 1})" aria-label="Next"><span aria-hidden="true">»</span></a>
+			    	<a href="listPage${pageMaker.makeQuery(pageMaker.endPage + 1)}" onclickX="gogo(${pageMaker.endPage + 1})" aria-label="Next"><span aria-hidden="true">»</span></a>
 			    </li>
 		  	</ul>
 		</nav>

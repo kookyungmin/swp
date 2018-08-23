@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +41,7 @@ public class BoardController {
 		
 		rttr.addFlashAttribute("result", "success");
 		
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	
 	@RequestMapping(value = "/dummy")
@@ -53,31 +54,63 @@ public class BoardController {
 		return "redirect:/board/listPage";
 	}
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void read(@RequestParam("bno") Integer bno, Model model) throws Exception{
+	public void read(@RequestParam("bno") Integer bno, 
+				@ModelAttribute("cri") Criteria cri,
+				Model model) throws Exception{
 		logger.info("read GET...");
 		BoardVO board = service.read(bno);
 		model.addAttribute(board);
 	}
 	
+//	@RequestMapping(value = "/update", method = RequestMethod.GET)
+//	public void update(@RequestParam("bno") Integer bno, Model model) throws Exception{
+//		logger.info("update GET");
+//		BoardVO board = service.read(bno);
+//		model.addAttribute(board);
+//	}
+//	@RequestMapping(value = "/update", method = RequestMethod.POST)
+//	public String update(BoardVO board, RedirectAttributes rttr) throws Exception{
+//		logger.info("update POST");
+//		service.modify(board);
+//		rttr.addFlashAttribute("result","saveOK");
+//		return "redirect:/board/read?bno="+board.getBno();
+//	}
+//	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+//	public String remove(@RequestParam("bno") Integer bno, RedirectAttributes rttr) throws Exception{
+//		logger.info("remove");
+//		service.remove(bno);
+//		rttr.addFlashAttribute("result","removeOK");
+////		return "redirect:/board/listAll";
+//		return "redirect:/board/listPage";
+//	}
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void update(@RequestParam("bno") Integer bno, Model model) throws Exception{
+	public void update(@RequestParam("bno") Integer bno, 
+				@ModelAttribute("cri") Criteria cri, 
+				Model model) throws Exception{
 		logger.info("update GET");
 		BoardVO board = service.read(bno);
 		model.addAttribute(board);
 	}
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(BoardVO board, RedirectAttributes rttr) throws Exception{
+	public String update(BoardVO board, 
+				Criteria cri, 
+				RedirectAttributes rttr) throws Exception{
 		logger.info("update POST");
 		service.modify(board);
-		rttr.addFlashAttribute("result","saveOK");
-		return "redirect:/board/read?bno="+board.getBno();
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("pagePerNum", cri.getPerPageNum());
+		rttr.addAttribute("bno",board.getBno());
+		return "redirect:/board/read";
 	}
 	@RequestMapping(value = "/remove", method = RequestMethod.GET)
-	public String remove(@RequestParam("bno") Integer bno, RedirectAttributes rttr) throws Exception{
+	public String remove(@RequestParam("bno") Integer bno, 
+				Criteria cri, RedirectAttributes rttr) throws Exception{
 		logger.info("remove");
 		service.remove(bno);
 		rttr.addFlashAttribute("result","removeOK");
-		return "redirect:/board/listAll";
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("pagePerNum", cri.getPerPageNum());
+		return "redirect:/board/listPage";
 	}
 	
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)

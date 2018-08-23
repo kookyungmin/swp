@@ -24,15 +24,16 @@
 		</div>
 	</div>
 	<div>
-		<a href="/board/update?bno=${boardVO.bno}" class="btn btn-warning">update</a>
-		<a href="/board/listAll" class="btn btn-primary">LIST ALL</a>
+		<a href="/board/update${cri.makeQuery()}&bno=${boardVO.bno}" class="btn btn-warning">update</a>
+		<a href="/board/listPage${cri.makeQuery()}" class="btn btn-primary">LIST ALL</a>
 		<button id="btn-remove-read" class="btn btn-danger">delete</button>
 	</div>
 	<script>
 		$(function(){
 			$('#btn-remove-read').click(function(){
 				if(confirm("Are u sure?")){
-					self.location.href = "/board/remove?bno=${boardVO.bno}";
+					/* self.location.href = "/board/remove?bno=${boardVO.bno}"; */
+					self.location.href = "/board/remove${cri.makeQuery()}&bno=${boardVO.bno}";
 				}
 			});
 		});
