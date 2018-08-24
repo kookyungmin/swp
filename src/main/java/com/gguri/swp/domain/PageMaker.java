@@ -46,12 +46,20 @@ public class PageMaker {
 	}
 	
 	public String makeQuery(int page) {
-		return UriComponentsBuilder.newInstance()
+		return makeQuery(page,true);
+	}
+	
+	public String makeQuery(int page, boolean needSearch) {
+		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
-				.queryParam("perPageNum", this.cri.getPerPageNum())
-				.queryParam("searchType", this.cri.getSearchType())
-				.queryParam("keyword", this.cri.getKeyword())
-				.build().encode().toString();
+				.queryParam("perPageNum", this.cri.getPerPageNum());
+				
+		if (needSearch) {
+			uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword());
+		}
+		return uriComponentsBuilder.build().encode().toString();
 	}
 	
 	

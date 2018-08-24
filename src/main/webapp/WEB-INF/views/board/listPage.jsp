@@ -11,11 +11,19 @@
 	
 	<div class="row">
 		<div class="col-md-11">
-			<form class="form-inline">
+			<div class="form-inline">
+				<select id="searchType" name="searchType">
+		  			<option value="">검색조건</option>
+		  			<option value="t">제목</option> 
+		  			<option value="c">내용</option>
+		  			<option value="w">작성자</option>
+		  			<option value="tc">제목+내용</option>
+		  			<option value="all">전체조건</option>
+				</select>
 				<input class="form-control" type="text" id="keyword" name="keyword" 
 				value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요"/>
-				<button class="btn btn-primary">Search</button>
-			</form>
+				<button id="searchBtn" class="btn btn-primary">Search</button>
+			</div>
 		</div>
 		<div class="col-md-1 text-right">
 			<select class="form-control" id="perPageSel">
@@ -103,13 +111,11 @@
 				$('.alert-info').fadeIn(2000,function(){
 					$('.alert-info').fadeOut(1000);
 				});
-				
 			}
 			if(result === 'removeOK'){
 				$('.alert-danger').fadeIn(2000,function(){
 					$('.alert-danger').fadeOut(1000);
-				});
-				
+				});	
 			}
 			if(canPrev !== 'true'){
 				$('#page-prev').addClass('disabled');
@@ -118,6 +124,29 @@
 				$('#page-next').addClass('disabled');
 			}
 			$('#page'+thisPage).addClass('active');
+			
+			$('#searchBtn').on('click',function(){
+				var $keyword = $('#keyword');
+				var $searchType = $('#searchType');
+				var searchTypeVal = $searchType.val();
+				var keywordVal = $keyword.val();
+				
+				if(!searchTypeVal){
+					alert("검색 조건을 선택하세요!");
+					$searchType.focus();
+					return;
+				}else if(!keywordVal){
+					alert("검색어를 입력하세요!");
+					$('#keyword').focus();
+					return;
+				}
+				
+				var url = "listPage${pageMaker.makeQuery(1 , false)}"
+						+ "&searchType=" + searchTypeVal
+						+ "&keyword=" + encodeURIComponent(keywordVal);
+				console.log(url);
+				window.location.href = url;
+			})
 		})
 	</script>
 <%@include file="../include/footer.jsp" %>
