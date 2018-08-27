@@ -78,8 +78,8 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public int getTotalCount() throws Exception {
-		return session.selectOne(GETTOTALCOUNT);
+	public int getTotalCount(Criteria cri) throws Exception {
+		return session.selectOne(GETTOTALCOUNT,cri);
 	}
 
 }

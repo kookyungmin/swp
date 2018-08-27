@@ -23,6 +23,6 @@ public interface BoardDAO {
 	 
 	 List<BoardVO> listCriteria(Criteria cri) throws Exception;
 
-	 int getTotalCount() throws Exception;
+	 int getTotalCount(Criteria cri) throws Exception;
 	 
 }

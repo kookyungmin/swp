@@ -99,6 +99,8 @@ public class BoardController {
 		service.modify(board);
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("pagePerNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType",cri.getSearchType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		rttr.addAttribute("bno",board.getBno());
 		return "redirect:/board/read";
 	}
@@ -110,6 +112,8 @@ public class BoardController {
 		rttr.addFlashAttribute("result","removeOK");
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("pagePerNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType",cri.getSearchType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/board/listPage";
 	}
 	
@@ -126,7 +130,7 @@ public class BoardController {
 		List<BoardVO> boards = service.listCriteria(cri);
 		model.addAttribute("list",boards);
 		PageMaker pageMaker = new PageMaker(cri);
-		int totalCount = service.getTotalCount();
+		int totalCount = service.getTotalCount(cri);
 		//@ToDo
 		//pageMaker.setTotalCount(113);
 		pageMaker.setTotalCount(totalCount);

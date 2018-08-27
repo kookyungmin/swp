@@ -17,5 +17,5 @@ public interface BoardService {
 	List<BoardVO> listPage(int page) throws Exception;
 	//listCriteria
 	List<BoardVO> listCriteria(Criteria cri) throws Exception;
-	int getTotalCount() throws Exception;
+	int getTotalCount(Criteria cri) throws Exception;
 }
