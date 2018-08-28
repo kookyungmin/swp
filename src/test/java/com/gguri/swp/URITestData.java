@@ -1,6 +1,5 @@
 package com.gguri.swp;
 
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -13,40 +12,18 @@ public class URITestData {
 			LoggerFactory.getLogger(BoardDAOTest.class);
 	@Test
 	public void uriTest() {
-		UriComponents uriComponets = null;
-		for(int i = 0; i < 2000; i++) {
-			uriComponets = UriComponentsBuilder.newInstance()
-					.path("/{module}/{page}")
-					.queryParam("keyword","강원도 고성군 토성면 케잌 뷐 ㄷㄹ지ㅏㅓㄷ질ㅈ더")
-					.build()
-					.expand("board","read")
-					.encode();
-			
-		}
-		logger.info(uriComponets.toString());
-	}
-	@Test
-	public void testURI() throws Exception{
-		int bno = 1;
-		int perPageNum = 20;
-//		UriComponents uriComponets = UriComponentsBuilder.newInstance()
-//				.path("/board/read")
-//				.queryParam("bno", bno)
-//				.queryParam("perPageNum", perPageNum)
-//				.build();
+		int page = 6;
+		int perPageNum = 10;
+		
 		UriComponents uriComponets = UriComponentsBuilder.newInstance()
-		.path("/{module}/{page}")
-		.queryParam("bno", bno)
-		.queryParam("perPageNum", perPageNum)
-		.build()
-		.expand("board","read")
-		.encode();
+				.path("/{module}/{page}")
+				.queryParam("page", page)
+				.queryParam("perPageNum", perPageNum)
+				.queryParam("search","강원도 횡성군 쀍 ㅋㅋㅋ 인코딩 예제")
+				.build()
+				.expand("board","read")
+				.encode();
 		
-		
-		String uri = "/board/read?bno=" + bno + "&perPageNum=" + perPageNum;
-		logger.info(uri);
 		logger.info(uriComponets.toString());
-		
-		assertEquals(uri, uriComponets.toString());
 	}
 }

@@ -1,7 +1,5 @@
 package com.gguri.swp;
 
-import static org.junit.Assert.assertEquals;
-
 import javax.inject.Inject;
 
 import org.junit.After;
@@ -12,10 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gguri.swp.domain.BoardVO;
+import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.persistence.BoardDAO;
 
 
@@ -55,7 +52,8 @@ public class BoardDAOTest {
 	@After
 	public void deleteTest() throws Exception{
 		if (didupdate  == true) {
-			logger.info(boardDAO.listAll().toString());
+			Criteria cri = new Criteria();
+			logger.info(boardDAO.listPage(cri).toString());
 			boardDAO.delete(maxbno);
 			didupdate = false;
 		}
@@ -68,5 +66,4 @@ public class BoardDAOTest {
 		board.setWriter("user00");
 		return board;
 	}
-	
 }

@@ -28,14 +28,6 @@ public class ServiceTest {
 		BoardVO board = service.read(2);
 		logger.debug(board.toString());
 	}
-//	@Test
-//	public void listPageTest() throws Exception{
-//		List<BoardVO> boards = service.listPage(1);
-//		for (BoardVO board : boards) {
-//			logger.info(board.getBno()+ ":" + board.getTitle());
-//		}
-//		
-//	}
 	@Test
 	public void getTotalCountTest() throws Exception {
 		Criteria cri = new Criteria();
@@ -43,15 +35,13 @@ public class ServiceTest {
 		logger.info("totalCount: "+totalCount.toString());
 	}
 	@Test
-	public void listCriteriaTest() throws Exception{
+	public void listPageTest() throws Exception{
 		Criteria cri = new Criteria();
-		cri.setPage(10);
-		cri.setPerPageNum(3);
-		List<BoardVO> boards = service.listCriteria(cri);
+		cri.setPage(1);
+		cri.setPerPageNum(10);
+		List<BoardVO> boards = service.listPage(cri);
 		for (BoardVO board : boards) {
 			logger.info(board.getBno()+ ":" + board.getTitle());
-		}
-		
+		}	
 	}
-
 }

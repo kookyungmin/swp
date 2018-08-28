@@ -28,21 +28,28 @@ public class BoardController {
 	private BoardService service;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public void registerGET(BoardVO board, Model model) throws Exception{
+	public void registerGET(BoardVO board, 
+					 		@ModelAttribute("cri") Criteria cri,
+					 		Model model) throws Exception{
 		logger.info("register get.....");
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerPOST(BoardVO board, RedirectAttributes rttr) throws Exception{
+	public String registerPOST(BoardVO board,
+							   Criteria cri,
+							   RedirectAttributes rttr) throws Exception{
 		logger.info("register post.....");
 		logger.info(board.toString());
 		
 		service.regist(board);
 		
-		rttr.addFlashAttribute("result", "success");
+		rttr.addFlashAttribute("result", "registerOK");
+		rttr.addAttribute("page", 1);
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		
 		return "redirect:/board/listPage";
 	}
+	
 	
 	@RequestMapping(value = "/dummy")
 	public String dummyPOST(RedirectAttributes rttr) throws Exception{
@@ -50,89 +57,63 @@ public class BoardController {
 		
 		service.dummy();
 		
-		rttr.addFlashAttribute("result", "success");
+		rttr.addFlashAttribute("result", "registerOK");
 		return "redirect:/board/listPage";
 	}
+	
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public void read(@RequestParam("bno") Integer bno, 
-				@ModelAttribute("cri") Criteria cri,
-				Model model) throws Exception{
+					 @ModelAttribute("cri") Criteria cri, 
+					 Model model) throws Exception{
 		logger.info("read GET...");
 		BoardVO board = service.read(bno);
 		model.addAttribute(board);
 	}
 	
-//	@RequestMapping(value = "/update", method = RequestMethod.GET)
-//	public void update(@RequestParam("bno") Integer bno, Model model) throws Exception{
-//		logger.info("update GET");
-//		BoardVO board = service.read(bno);
-//		model.addAttribute(board);
-//	}
-//	@RequestMapping(value = "/update", method = RequestMethod.POST)
-//	public String update(BoardVO board, RedirectAttributes rttr) throws Exception{
-//		logger.info("update POST");
-//		service.modify(board);
-//		rttr.addFlashAttribute("result","saveOK");
-//		return "redirect:/board/read?bno="+board.getBno();
-//	}
-//	@RequestMapping(value = "/remove", method = RequestMethod.GET)
-//	public String remove(@RequestParam("bno") Integer bno, RedirectAttributes rttr) throws Exception{
-//		logger.info("remove");
-//		service.remove(bno);
-//		rttr.addFlashAttribute("result","removeOK");
-////		return "redirect:/board/listAll";
-//		return "redirect:/board/listPage";
-//	}
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void update(@RequestParam("bno") Integer bno, 
-				@ModelAttribute("cri") Criteria cri, 
-				Model model) throws Exception{
+	public void updateGET(@RequestParam("bno") Integer bno, 
+						  @ModelAttribute("cri") Criteria cri, 
+						  Model model) throws Exception{
 		logger.info("update GET");
 		BoardVO board = service.read(bno);
 		model.addAttribute(board);
 	}
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(BoardVO board, 
-				Criteria cri, 
-				RedirectAttributes rttr) throws Exception{
+	public String updatePOST(BoardVO board, 
+							 Criteria cri,
+							 RedirectAttributes rttr) throws Exception{
 		logger.info("update POST");
 		service.modify(board);
+		rttr.addFlashAttribute("result","saveOK");
 		rttr.addAttribute("page", cri.getPage());
-		rttr.addAttribute("pagePerNum", cri.getPerPageNum());
-		rttr.addAttribute("searchType",cri.getSearchType());
-		rttr.addAttribute("keyword",cri.getKeyword());
-		rttr.addAttribute("bno",board.getBno());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		rttr.addAttribute("bno", board.getBno());
+		
 		return "redirect:/board/read";
 	}
 	@RequestMapping(value = "/remove", method = RequestMethod.GET)
 	public String remove(@RequestParam("bno") Integer bno, 
-				Criteria cri, RedirectAttributes rttr) throws Exception{
+					 Criteria cri,
+					 RedirectAttributes rttr) throws Exception{
 		logger.info("remove");
 		service.remove(bno);
 		rttr.addFlashAttribute("result","removeOK");
 		rttr.addAttribute("page", cri.getPage());
-		rttr.addAttribute("pagePerNum", cri.getPerPageNum());
-		rttr.addAttribute("searchType",cri.getSearchType());
-		rttr.addAttribute("keyword",cri.getKeyword());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/listPage";
 	}
-	
-	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-	public void listAll(Model model) throws Exception{
-		logger.info("show all list");
-		List<BoardVO> boards = service.listAll();
-		model.addAttribute("list",boards);
-	}
-	
+
 	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
 	public void listPage(Criteria cri, Model model) throws Exception{
-		logger.info(cri.toString());
-		List<BoardVO> boards = service.listCriteria(cri);
+		logger.info("listPage");
+		List<BoardVO> boards = service.listPage(cri);
 		model.addAttribute("list",boards);
 		PageMaker pageMaker = new PageMaker(cri);
 		int totalCount = service.getTotalCount(cri);
-		//@ToDo
-		//pageMaker.setTotalCount(113);
 		pageMaker.setTotalCount(totalCount);
 		model.addAttribute("pageMaker", pageMaker);
 	}

@@ -30,26 +30,7 @@
 	<delete id="delete">
 		delete from board where bno = #{bno}
 	</delete>
-	<!-- board 전체 행 조회 -->
-	<select id="listAll" resultType="BoardVO">
-		select *
-		from board
-		where bno >0
-		order by bno desc, regdate desc
-	</select>
-
-	<!-- bno 최대 구하기 -->
-	<select id="getMaxBno" resultType="Integer">
-		select max(bno) from board
-	</select>	
-	<!-- 10 페이지 씩 조회 
-	<select id="listPage" resultType="BoardVO">
-		select *
-		from board
-		where bno > 0
-		order by bno desc, regdate desc
-		limit #{page}, 10
-	</select>-->
+	
 	<sql id="searchCondition">
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()">
@@ -73,16 +54,12 @@
 		</if>
 	</sql>
 	
-	<!-- 10 페이지 씩 조회 -->
+	<!-- bno 최대 구하기 -->
+	<select id="getMaxBno" resultType="Integer">
+		select max(bno) from board
+	</select>	
+	<!-- 일정 페이지 씩 조회 -->
 	<select id="listPage" resultType="BoardVO">
-		select *
-		from board
-		where bno > 0
-		<include refid="searchCondition"></include>
-		order by bno desc, regdate desc
-		limit #{page}, 10
-	</select>
-	<select id="listCriteria" resultType="BoardVO">
 		select *
 		from board
 		where bno > 0
@@ -97,5 +74,4 @@
 		where bno > 0
 		<include refid="searchCondition"></include>
 	</select>
-	
 </mapper>

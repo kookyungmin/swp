@@ -10,12 +10,7 @@ public interface BoardService {
 	BoardVO read(Integer bno) throws Exception;
 	void modify(BoardVO board) throws Exception;
 	void remove(Integer bno) throws Exception;
-	List<BoardVO> listAll() throws Exception;
-	//dummy 추가
 	void dummy() throws Exception;
-	//listPage
-	List<BoardVO> listPage(int page) throws Exception;
-	//listCriteria
-	List<BoardVO> listCriteria(Criteria cri) throws Exception;
+	List<BoardVO> listPage(Criteria cri) throws Exception;
 	int getTotalCount(Criteria cri) throws Exception;
 }
