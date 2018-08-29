@@ -13,5 +13,6 @@ public interface BoardDAO {
 	 void delete(Integer bno) throws Exception;
 	 Integer getMaxBno() throws Exception;
 	 List<BoardVO> listPage(Criteria cri) throws Exception;
-	 int getTotalCount(Criteria cri) throws Exception; 
+	 int getTotalCount(Criteria cri) throws Exception;
+	 
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- DTD 선언 -->
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="replyMapper">
+	<!-- 데이터 삽입 -->
+	<insert id="create">
+		insert into reply (bno, replyer, replytext)
+		values( #{bno}, #{replyer}, #{replytext})
+	</insert>
+	
+	<!-- 행 수정 -->
+	<update id="update">
+		update reply
+		set replytext = #{replytext}
+		where rno = #{rno}
+	</update>
+	<!-- 행 삭제 -->
+	<delete id="delete">
+		delete from reply where rno = #{rno}
+	</delete>
+	<!-- 일정 페이지 씩 조회 -->
+	<select id="list" resultType="ReplyVO">
+		select *
+		from reply
+		where bno = #{bno}
+		order by rno desc
+	</select>
+	<select id="listPage" resultType="ReplyVO">
+		select *
+		from reply
+		where bno = #{bno}
+		order by rno desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="getTotalCount" resultType="int">
+		select count(bno)
+		from reply
+		where bno = #{bno}
+	</select>
+	
+</mapper>
