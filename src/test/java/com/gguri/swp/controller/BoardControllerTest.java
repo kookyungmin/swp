@@ -50,7 +50,7 @@ public class BoardControllerTest {
 	
 	@Ignore
 	public void testRead() throws Exception{
-		this.mockmvc.perform(get("/board/read").param("bno", "2"))
+		this.mockmvc.perform(get("/board/read").param("bno", "252"))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(handler().handlerType(BoardController.class))
@@ -58,7 +58,7 @@ public class BoardControllerTest {
 	}
 	@Ignore
 	public void testRead2() throws Exception{
-		this.mockmvc.perform(get("/board/read").param("bno", "500"))
+		this.mockmvc.perform(get("/board/read").param("bno", "253"))
 		.andDo(print())
 		.andExpect(status().is4xxClientError())
 		.andExpect(handler().handlerType(BoardController.class))

@@ -65,14 +65,9 @@ public class BoardController {
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public void read(@RequestParam("bno") Integer bno, 
 					 @ModelAttribute("cri") Criteria cri,
-//					 HttpServletResponse response,
 					 Model model) throws Exception{
 		logger.info("read GET...");
 		BoardVO board = service.read(bno);
-//		if(board == null) {
-//			response.sendError(404);
-//		}
-		model.addAttribute(board);
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
