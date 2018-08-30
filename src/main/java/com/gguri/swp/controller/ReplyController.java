@@ -22,7 +22,7 @@ import com.gguri.swp.domain.ReplyVO;
 import com.gguri.swp.service.ReplyService;
 
 @RestController
-@RequestMapping("/replies/*")
+@RequestMapping("/replies")
 public class ReplyController {
 	private static final Logger logger = LoggerFactory.getLogger(ReplyController.class);
 	

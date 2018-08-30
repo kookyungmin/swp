@@ -19,6 +19,14 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String ajaxTest() {
+		logger.info("Welcome home! Test!{}");
+		
+		return "test";
+	}
+	
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -35,5 +43,7 @@ public class HomeController {
 		
 		return "home";
 	}
+	
+	
 	
 }
