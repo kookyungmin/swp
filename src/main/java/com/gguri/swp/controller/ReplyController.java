@@ -1,6 +1,8 @@
 package com.gguri.swp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gguri.swp.domain.Criteria;
+import com.gguri.swp.domain.PageMaker;
 import com.gguri.swp.domain.ReplyVO;
 import com.gguri.swp.service.ReplyService;
 
@@ -72,11 +76,23 @@ public class ReplyController {
 	}
 	
 	@RequestMapping(value = "/all/{bno}/{page}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno){
+	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno,
+														@PathVariable("page") Integer page){
 		logger.debug("ReplyList>>{}", bno);
 		try {
-			List<ReplyVO> list = service.listReply(bno);
-			return new ResponseEntity<>(list, HttpStatus.OK);
+			Map<String, Object> map = new HashMap<>();
+			Criteria cri = new Criteria();
+			cri.setPage(page);
+			PageMaker pagemaker = new PageMaker(cri);
+			List<ReplyVO> list = service.listReplyPage(bno, cri);
+			map.put("list", list);
+			
+			int replyCount = service.getTotalCount(bno);
+			pagemaker.setTotalCount(replyCount);
+			
+			map.put("pageMaker", pagemaker);
+			
+			return new ResponseEntity<>(map, HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
