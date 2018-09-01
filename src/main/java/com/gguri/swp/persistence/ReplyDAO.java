@@ -6,11 +6,10 @@ import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.ReplyVO;
 
 public interface ReplyDAO {
-	List<ReplyVO> list(Integer bno) throws Exception;
 	
-	void create(ReplyVO vo) throws Exception;
+	void create(ReplyVO reply) throws Exception;
 	
-	void update(ReplyVO vo) throws Exception;
+	void update(ReplyVO reply) throws Exception;
 	
 	void delete(Integer rno) throws Exception;
 	

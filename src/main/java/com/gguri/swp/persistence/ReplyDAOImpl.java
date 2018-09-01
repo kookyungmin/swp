@@ -19,27 +19,22 @@ public class ReplyDAOImpl implements ReplyDAO{
 	SqlSession session;
 	
 	private static final String NS = "replyMapper";
-	private static final String LIST = NS + ".list";
 	private static final String CREATE = NS + ".create";
 	private static final String UPDATE = NS + ".update";
 	private static final String DELETE = NS + ".delete";
 	private static final String LISTPAGE = NS + ".listPage";
 	private static final String GETTOTALCOUNT = NS + ".getTotalCount";
 	
+	
 	@Override
-	public List<ReplyVO> list(Integer bno) throws Exception {
-		return session.selectList(LIST, bno);
-	}
-
-	@Override
-	public void create(ReplyVO vo) throws Exception {
-		session.insert(CREATE, vo);
+	public void create(ReplyVO reply) throws Exception {
+		session.insert(CREATE, reply);
 		
 	}
 
 	@Override
-	public void update(ReplyVO vo) throws Exception {
-		session.update(UPDATE, vo);
+	public void update(ReplyVO reply) throws Exception {
+		session.update(UPDATE, reply);
 		
 	}
 

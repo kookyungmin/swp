@@ -34,7 +34,7 @@ public class ReplyController {
 		logger.debug("ReplyRegister>>{}",reply);
 		try {
 			service.register(reply);
-			return new ResponseEntity<>("success", HttpStatus.OK);
+			return new ResponseEntity<>("ReplyRegisterOK", HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -47,7 +47,7 @@ public class ReplyController {
 		try {
 			reply.setRno(rno);
 			service.modify(reply);
-			return new ResponseEntity<>("success", HttpStatus.OK);
+			return new ResponseEntity<>("ReplyUpdateOK", HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -58,22 +58,12 @@ public class ReplyController {
 		logger.debug("ReplyDelete>>{}", rno);
 		try {
 			service.remove(rno);
-			return new ResponseEntity<>("success", HttpStatus.OK);
+			return new ResponseEntity<>("ReplyDeleteOK", HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@RequestMapping(value = "/all/{bno}", method = RequestMethod.GET)
-	public ResponseEntity<List<ReplyVO>> list(@PathVariable("bno") Integer bno){
-		logger.debug("ReplyList>>{}", bno);
-		try {
-			List<ReplyVO> list = service.listReply(bno);
-			return new ResponseEntity<>(list, HttpStatus.OK);
-		} catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
 	
 	@RequestMapping(value = "/all/{bno}/{page}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno,

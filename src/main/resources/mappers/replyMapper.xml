@@ -22,13 +22,6 @@
 	<delete id="delete">
 		delete from reply where rno = #{rno}
 	</delete>
-	<!-- 일정 페이지 씩 조회 -->
-	<select id="list" resultType="ReplyVO">
-		select *
-		from reply
-		where bno = #{bno}
-		order by rno desc
-	</select>
 	<select id="listPage" resultType="ReplyVO">
 		select *
 		from reply

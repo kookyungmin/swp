@@ -16,19 +16,14 @@ public class ReplyServiceImpl implements ReplyService{
 	ReplyDAO replyDAO;
 	
 	@Override
-	public List<ReplyVO> listReply(Integer bno) throws Exception {
-		return replyDAO.list(bno);
-	}
-
-	@Override
-	public void register(ReplyVO vo) throws Exception {
-		replyDAO.create(vo);
+	public void register(ReplyVO reply) throws Exception {
+		replyDAO.create(reply);
 		
 	}
 
 	@Override
-	public void modify(ReplyVO vo) throws Exception {
-		replyDAO.update(vo);
+	public void modify(ReplyVO reply) throws Exception {
+		replyDAO.update(reply);
 		
 	}
 

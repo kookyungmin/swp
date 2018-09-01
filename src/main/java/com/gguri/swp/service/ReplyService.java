@@ -7,11 +7,9 @@ import com.gguri.swp.domain.ReplyVO;
 
 
 public interface ReplyService {
-	List<ReplyVO> listReply(Integer bno) throws Exception;
+	void register(ReplyVO reply) throws Exception;
 	
-	void register(ReplyVO vo) throws Exception;
-	
-	void modify(ReplyVO vo) throws Exception;
+	void modify(ReplyVO reply) throws Exception;
 	
 	void remove(Integer rno) throws Exception;
 	
