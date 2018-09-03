@@ -16,7 +16,6 @@ function registerReply(){
 		errorMsg = "내용을 입력하세요";
 		$errorFocus = $replytext;
 	}
-	
 	if(errorMsg){
 		alert(errorMsg);
 		$errorFocus.focus();
@@ -38,6 +37,7 @@ function registerReply(){
 	sender.always((responseText,statusText,ajaxResult) => {
 		if(statusText === 'success'){
 			alert("등록 되었습니다.");
+			listAll();
 		}else{
 			alert("오류가 발생하였습니다!");
 		}
@@ -67,19 +67,22 @@ function listAll(){
 		let str = ""; //바뀔 수 있음
 		data.list.forEach(
 			(d) => {
-				str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '</li>';
+				//str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
+				str += `<li data-rno= "${d.rno}" class= "replyLi">
+							${d.replytext}
+							<button onclick=modClicked(this) class="point">수정</button>
+						</li>`;
 		    }
 		);
 		$('#replies').html(str);
 	});
 }
 
-//-------------------------------------------
-$(function(){
-	//$('#h2-title').on('click',listAll);
-	listAll();
-	$('#btnReplyAdd').click(function(){
-		registerReply();
-	})
-	
-});
+function modClicked(btn){
+	let $btn = $(btn),
+		$reply = $btn.parent(),
+		rno = $reply.data('rno');
+	console.log(rno);
+}
+
+

@@ -27,5 +27,14 @@
 	
 <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <script src="/resources/test.js"></script>
+<script>
+	$(function(){
+		//$('#h2-title').on('click',listAll);
+		listAll();
+		$('#btnReplyAdd').click(function(){
+			registerReply();
+		})	
+	});
+</script>
 </body>
 </html>
