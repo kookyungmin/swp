@@ -26,6 +26,6 @@
 	</div>
 	
 <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-<script src="/resources/test.js?"></script>
+<script src="/resources/test.js"></script>
 </body>
 </html>

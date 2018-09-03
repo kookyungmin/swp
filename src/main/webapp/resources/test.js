@@ -36,7 +36,7 @@ function registerReply(){
 	})
 	
 	sender.always((responseText,statusText,ajaxResult) => {
-		if(responseText === 'success'){
+		if(statusText === 'success'){
 			alert("등록 되었습니다.");
 		}else{
 			alert("오류가 발생하였습니다!");
@@ -57,20 +57,21 @@ $.getJSON(listUrl, function(data, b, c){
 */
 
 function listAll(){
-	const bno = 6, //상수
-	listUrl = "/replies/all/" + bno;
+	const bno = 6; 
+	const page = 1;
+	listUrl = "/replies/all/" + bno + "/" + page;
 	$.getJSON(listUrl, (data, b, c) => { 
 		console.log(">> data=", data, ", b=", b, ", c=", c);
 		//$(data).each((a,b) => {console.log(a,b)});
 		
 		let str = ""; //바뀔 수 있음
-		data.forEach(
+		data.list.forEach(
 			(d) => {
 				str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '</li>';
 		    }
 		);
 		$('#replies').html(str);
-	});	
+	});
 }
 
 //-------------------------------------------
