@@ -1,5 +1,9 @@
 const BNO = 6;
 
+let workingReplyText ="",
+	$workingReply = null,
+	workingRno = 0;
+
 function registerReply(){
 	const REGIST_URL = "/replies";
 	
@@ -86,18 +90,34 @@ function listPage(page){
 					}
 			);
 			$('#replies').html(str);
-			printPaging(pageMaker);
+			printPage(pageMaker);
 		}
 		
 	});
 }
 
-function printPaging(pageMaker){
-	var str = "";
+
+
+function printPage(pageMaker){
+	let str = "";
+		tempPage = 0;
 	if(pageMaker.prev){
-		str += `<li><a href="${pageMaker.startPage-1}"> << </a></li>`;
+		tempPage = pageMaker.startPage - 1;
+		str = `<li><a href="#" onclick="listPage(tempPage)" data-page="${tmpPage}">&lt;&lt;</a></li>`;
+	}
+	//현재 페이지
+	let currentPage = pageMaker.cri.page;
+	
+	for(let i = pageMaker.startPage; i <= pageMaker.endPage; i++){
+		str += `<li><a href="#" onclick="listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page="${i}">${i}</a></li>`;
 	}
 	
+	if(pageMaker.next){
+		tempPage = pageMaker.nextPage +1;
+		str += `<li><a href="#" onclick="listPage(tempPage)" data-page="${tempPage}">&gt;&gt;</a></li>`;
+	}
+	
+	$('ul#pagination').html(str);
 	
 }
 function getValidData($replyer, $replytext){
@@ -125,7 +145,7 @@ function getValidData($replyer, $replytext){
 
 function sendAjax(url, fn,  method, jsonData){
 	let options = {
-						method: method,
+						method: method || 'GET',
 						url: url,
 						contentType: "application/json"
 				   };
@@ -142,9 +162,6 @@ function sendAjax(url, fn,  method, jsonData){
 		}
 	})
 }
-let workingReplyText ="",
-	$workingReply = null;
-let  workingRno = 0;
 
 function modClicked(btn){
 	let $btn = $(btn),

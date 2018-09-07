@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<script id="templ1" type="text/x-handlebars-template">
+	<div>
+		id: {{id}}, name: {{name}}
+	</div>
+</script>
+	
+<script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="../handlebars-v4.0.12.js"></script>
+<script>
+	let template = Handlebars.compile($('#templ1').html());
+	let context = {id: 123, name: "홍길동"};
+	let html = template(context);
+	console.debug(html);
+</script>
+</body>
+</html>

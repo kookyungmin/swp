@@ -1,6 +1,23 @@
 #replies{
 	padding:0;
 }
+
+#pagination>li{
+	list-style: none;
+	display: inline;
+}
+
+#pagination>li>a{
+	margin: 10px;
+	text-decoration:none;
+}
+
+#pagination a.active{
+	font-weight:700;
+	border: 1px solid blue;
+	padding: 4px 8px; 
+}
+
 #modDiv{
 	width: 300px;
     height: 100px;

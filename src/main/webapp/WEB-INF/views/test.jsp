@@ -15,6 +15,7 @@
 	<ul id="replies">	
 	</ul>
 	<ul id="pagination">
+		
 	</ul>
 	<div>
 		<div>
