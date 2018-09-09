@@ -4,10 +4,37 @@ let workingReplyText ="",
 	$workingReply = null,
 	workingRno = 0;
 
+function listPage(page){
+	page = page || 1;
+	listUrl = "/replies/all/" + BNO + "/" + page;
+	
+	sendAjax(listUrl, (isSuccess, res)=>{
+		if(isSuccess){
+			let data = res.list,
+			pageMaker = res.pageMaker;
+			let str = ""; //바뀔 수 있음
+			//$(data).each((a,b) => {console.log(a,b)});
+			data.forEach(
+					(d) => {
+						//str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
+						str += `<li data-rno= "${d.rno}" class= "replyLi">
+							<span>${d.replytext}</span>
+							<button onclick=modClicked(this) class="point">수정</button>
+							</li>`;
+					}
+			);
+			$('#replies').html(str);
+			printPage(pageMaker);
+		}
+		
+	});
+}
+
 function registerReply(){
 	const REGIST_URL = "/replies";
-	
-	let jsonData = getValidData($('#newReplyWriter'), $('#newReplyText'));
+	let $replyer = $('#newReplyWriter'), 
+		$replytext = $('#newReplyText');
+	let jsonData = getValidData($replyer, $replytext);
 	if(!jsonData){
 		return;
 	}
@@ -17,7 +44,9 @@ function registerReply(){
 	sendAjax(REGIST_URL, (isSuccess, res) => {
 		if(isSuccess){
 			alert("등록이 완료 되었습니다.");
-			listPage();
+			$replyer.val('');
+			$replytext.val('');
+			listPage(1);
 		}else{
 			console.debug("Error on registerReply>>",res);
 		}
@@ -53,13 +82,37 @@ function removeReply(){
 	}, 'DELETE');
 }
 
-function closeMod(){
-	let $modDiv = $("#modDiv");
-	workingRno = 0;
-	$('#replytext').text('');
-	$modDiv.hide('slow');
-	$('#btnModReply').hide();
+function sendAjax(url, fn,  method, jsonData){
+	let options = {
+			method: method || 'GET',
+			url: url,
+			contentType: "application/json"
+	};
+	//jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
+	if(jsonData){
+		options.data = JSON.stringify(jsonData);
+	}
 	
+	$.ajax(options).always((responseText, statusText, ajaxResult) =>{
+		let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
+		fn(isSuccess, responseText);
+		if(!isSuccess){
+			alert("오류가 발생하였습니다. (errorMessage:" + responseText + ")");
+		}
+	})
+}
+
+function modClicked(btn){
+	movCenterModDiv();
+	let $btn = $(btn),
+	$reply = $btn.parent(),
+	rno = $reply.data('rno');
+	replytext = truncSpace($reply.find('span').text());
+	$('#replycontext').val(replytext);
+	$('#modDiv').show('slow');
+	workingRno = rno;
+	workingReplyText = replytext;
+	$workingReply = $reply;
 }
 
 function replyContextChange(){
@@ -70,30 +123,50 @@ function replyContextChange(){
 	}
 }
 
-function listPage(page){
-	page = page || 1;
-	listUrl = "/replies/all/" + BNO + "/" + page;
+function getValidData($replyer, $replytext){
+	let errorFocus = null,
+	replyer = $replyer.val(),
+	replytext = $replytext.val(),
+	errorMsg = "";
 	
-	sendAjax(listUrl, (isSuccess, res)=>{
-		if(isSuccess){
-			let data = res.list,
-				pageMaker = res.pageMaker;
-			let str = ""; //바뀔 수 있음
-			//$(data).each((a,b) => {console.log(a,b)});
-			data.forEach(
-					(d) => {
-						//str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
-						str += `<li data-rno= "${d.rno}" class= "replyLi">
-							<span>${d.replytext}</span>
-							<button onclick=modClicked(this) class="point">수정</button>
-							</li>`;
-					}
-			);
-			$('#replies').html(str);
-			printPage(pageMaker);
-		}
-		
-	});
+	if(!replyer){
+		errorMsg = "작성자를 입력하세요.";
+		$errorFocus = $replyer;
+	} else if(!replytext){
+		errorMsg = "내용을 입력하세요";
+		$errorFocus = $replytext;
+	}
+	
+	if(errorMsg){
+		alert(errorMsg);
+		$errorFocus.focus();
+		return;
+	}
+	
+	return {replyer: replyer, replytext: replytext};
+}
+
+function movCenterModDiv(){
+	$modDiv = $('#modDiv');
+	$modDiv.css({'margin-left':$modDiv.width()/2*(-1)});
+	$modDiv.css({'margin-top':$modDiv.height()/2*(-1)});
+}
+
+var truncSpace = function(str){
+	if(!str){
+		return "";
+	}
+	return str.replace(/[\n\r\t]/g,'').trim();
+};
+
+function closeMod(){
+	let $modDiv = $("#modDiv");
+	workingRno = 0;
+	workingReplyText ="";
+	$workingReply = null;
+	$('#replycontext').val('');
+	$modDiv.hide('slow');
+	$('#btnModReply').hide();	
 }
 
 
@@ -118,63 +191,9 @@ function printPage(pageMaker){
 	}
 	
 	$('ul#pagination').html(str);
-	
-}
-function getValidData($replyer, $replytext){
-	let errorFocus = null,
-		replyer = $replyer.val(),
-		replytext = $replytext.val(),
-		errorMsg = "";
-
-	if(!replyer){
-		errorMsg = "작성자를 입력하세요.";
-		$errorFocus = $replyer;
-	} else if(!replytext){
-		errorMsg = "내용을 입력하세요";
-		$errorFocus = $replytext;
-	}
-	
-	if(errorMsg){
-		alert(errorMsg);
-		$errorFocus.focus();
-		return;
-	}
-	
-	return {replyer: replyer, replytext: replytext};
 }
 
-function sendAjax(url, fn,  method, jsonData){
-	let options = {
-						method: method || 'GET',
-						url: url,
-						contentType: "application/json"
-				   };
-	//jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
-	if(jsonData){
-		options.data = JSON.stringify(jsonData);
-	}
-	
-	$.ajax(options).always((responseText, statusText, ajaxResult) =>{
-		let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
-		fn(isSuccess,responseText);
-		if(!isSuccess){
-			alert("오류가 발생하였습니다. (errorMessage:" + responseText + ")");
-		}
-	})
-}
-
-function modClicked(btn){
-	let $btn = $(btn),
-	$reply = $btn.parent(),
-	rno = $reply.data('rno');
-	replytext = truncSpace($reply.find('span').text());
-	$('#replycontext').val(replytext);
-	$('#modDiv').show('slow');
-	workingRno = rno;
-	workingReplyText = replytext;
-	$workingReply = $reply;
-}
-
+/*
 function showJson(){
 	let result = [];
 	$('#replies li').each ( (idx, li) => {
@@ -191,19 +210,9 @@ function showJson(){
 	result = JSON.stringify(result, null, '  ');
 	console.log(result);
 }
+*/
 
 
 
-function movCenterModDiv(){
-	$modDiv = $('#modDiv');
-	$modDiv.css({'margin-left':$modDiv.width()/2*(-1)});
-	$modDiv.css({'margin-top':$modDiv.height()/2*(-1)});
-}
 
 
-var truncSpace = function(str){
-	if(!str){
-		return "";
-	}
-	return str.replace(/[\n\r\t]/g,'').trim();
-};

@@ -2,6 +2,30 @@
 	padding:0;
 }
 
+.modal-title{
+	margin-bottom: 10px;
+}
+.point{
+	cursor : pointer;
+}
+
+#modDiv{
+	width: 300px;
+    height: 100px;
+    position: absolute;
+    background: gray;
+    text-align: center;
+    padding: 15px 10px 10px 10px;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    display:none;
+}
+
+#btnModReply{
+	display:none;
+}
+
 #pagination>li{
 	list-style: none;
 	display: inline;
@@ -18,25 +42,3 @@
 	padding: 4px 8px; 
 }
 
-#modDiv{
-	width: 300px;
-    height: 100px;
-    position: absolute;
-    background: gray;
-    text-align: center;
-    padding: 15px 10px 10px 10px;
-    z-index: 1000;
-    top: 50%;
-    left: 50%;
-    display:none;
-}
-.modal-title{
-	margin-bottom: 10px;
-}
-.point{
-	cursor : pointer;
-}
-
-#btnModReply{
-	display:none;
-}
