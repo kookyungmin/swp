@@ -68,6 +68,7 @@ public class BoardController {
 					 Model model) throws Exception{
 		logger.info("read GET...");
 		BoardVO board = service.read(bno);
+		model.addAttribute(board);
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.GET)

@@ -3,21 +3,38 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Document</title>
+	<link rel="stylesheet" href="./hbs1.css" />
 </head>
 <body>
-	<script id="templ1" type="text/x-handlebars-template">
+
+
+
+
+<script id="tmpl1" type="text/x-handlebars-template" class="text-right">
 	<div>
 		id: {{id}}, name: {{name}}
+	</div>
+</script>
+
+<hr />
+
+<script id="tmpl2" type="text/x-handlebars-template">
+	<div>
+		{{id}} . <strong>{{name}}</strong>
 	</div>
 </script>
 	
 <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <script src="../handlebars-v4.0.12.js"></script>
+<script src="./hbs1.js"></script>
 <script>
-	let template = Handlebars.compile($('#templ1').html());
-	let context = {id: 123, name: "홍길동"};
-	let html = template(context);
-	console.debug(html);
+
+let jsonData = {id: 123, name: "홍길동"};
+
+renderHds("tmpl1", jsonData);
+renderHds("tmpl2", jsonData);
+
 </script>
+
 </body>
 </html>
