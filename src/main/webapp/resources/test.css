@@ -2,20 +2,11 @@
 	padding:0;
 }
 
-#pagination>li{
-	list-style: none;
-	display: inline;
+.modal-title{
+	margin-bottom: 10px;
 }
-
-#pagination>li>a{
-	margin: 10px;
-	text-decoration:none;
-}
-
-#pagination a.active{
-	font-weight:700;
-	border: 1px solid blue;
-	padding: 4px 8px; 
+.point{
+	cursor : pointer;
 }
 
 #modDiv{
@@ -30,14 +21,25 @@
     left: 50%;
     display:none;
 }
-.modal-title{
-	margin-bottom: 10px;
-}
-.point{
-	cursor : pointer;
-}
 
 #btnModReply{
 	display:none;
+}
+
+
+#pagination>li{
+	list-style: none;
+	display: inline;
+}
+
+#pagination>li>a{
+	margin: 10px;
+	text-decoration:none;
+}
+
+#pagination a.active{
+	font-weight:700;
+	border: 1px solid blue;
+	padding: 4px 8px; 
 }
 
