@@ -44,7 +44,7 @@ function registerReply(){
 	
 	sendAjax(REGIST_URL, (isSuccess, res) => {
 		if(isSuccess){
-			alert("등록이 완료 되었습니다.");
+			//alert("등록이 완료 되었습니다.");
 			$replyer.val('');
 			$replytext.val('');
 			listPage(1);
@@ -205,21 +205,12 @@ function printPage(pageMaker){
 }
 
 
-function showJson(){
-	let result = [];
-	$('#replies li').each ( (idx, li) => {
-		let $li = $(li),
-			rno = $li.data('rno')
-			replyer = $li.data('replyer')
-			replytext = truncSpace($li.text()); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈
-		result.push({
-			rno: rno,
-			replyer: replyer,
-			replytext: replytext
-	    })
-	})
-	result = JSON.stringify(result, null, '  ');
-	console.log(result);
+function ReplyAutoAdd(){
+	$('#newReplyWriter').val('꾸리');
+	for(let i = 0; i < 100; i++){
+		$('#newReplyText').val('예제댓글입니다'+i);
+		registerReply();
+	}
 }
 
 

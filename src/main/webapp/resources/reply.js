@@ -1,9 +1,52 @@
-const BNO = 6;
+let gBno = 0;
 
 let workingReplyText ="",
 	$workingReply = null,
 	workingRno = 0,
 	workingPage = 0;
+
+function replyListPage(page, bno){
+	gBno = bno || gBno;
+	page = page || 1;
+	listUrl = "/replies/all/" + gBno + "/" + page;
+	sendAjax(listUrl, (isSuccess, res)=>{
+		if(isSuccess){
+			res.pageData = makePageData(res.pageMaker);
+			res.currentPage = page;
+			renderHds("replies", res);
+		}
+		
+	});
+}
+
+function makePageData(pageMaker){
+	let pageData = {
+			prevPage : 0,
+			nextPage : 0,
+			pages: [],
+	};
+	
+	if(pageMaker.prev){
+		pageData.prevPage = pageMaker.startPage - 1;
+	}
+	
+	for(let i = pageMaker.startPage; i <= pageMaker.endPage; i++){
+		pageData.pages.push(i);
+	}
+	
+	if(pageMaker.next){
+		pageData.nextPage = pageMaker.endPage +1;
+	}
+	
+	return pageData;
+	
+}
+
+
+
+
+
+
 
 function registerReply(){
 	const REGIST_URL = "/replies";
@@ -12,19 +55,36 @@ function registerReply(){
 	if(!jsonData){
 		return;
 	}
-	
-	jsonData.bno = BNO;
-	
+	jsonData.bno = gBno;
 	sendAjax(REGIST_URL, (isSuccess, res) => {
 		if(isSuccess){
 			alert("등록이 완료 되었습니다.");
-			listPage(1);
+			replyListPage(1);
 		}else{
 			console.debug("Error on registerReply>>",res);
 		}
 	} , 'POST', jsonData);
 }
 
+function sendAjax(url, fn,  method, jsonData){
+	let options = {
+			method: method || 'GET',
+			url: url,
+			contentType: "application/json"
+	};
+	//jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
+	if(jsonData){
+		options.data = JSON.stringify(jsonData);
+	}
+	$.ajax(options).always((responseText, statusText, ajaxResult) =>{
+		let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
+		fn(isSuccess,responseText);
+		if(!isSuccess){
+			alert("오류가 발생하였습니다. (errorMessage:" + responseText + ")");
+		}
+	})
+}
+/*
 function editReply(){
 	let editedReplyText = $('#replycontext').val();
 	
@@ -48,7 +108,7 @@ function removeReply(){
 			alert(workingRno+"번 댓글이 삭제완료되었습니다.");
 			workingPage = $('.active').data().page;
 			console.log(workingPage);
-			listPage(workingPage);
+			replyListPage(workingPage);
 			closeMod();
 		} else{
 			console.debug("Error on removeReply>>",res);
@@ -74,42 +134,9 @@ function replyContextChange(){
 	}
 }
 
-function listPage(page){
-	page = page || 1;
-	listUrl = "/replies/all/" + BNO + "/" + page;
-	sendAjax(listUrl, (isSuccess, res)=>{
-		if(isSuccess){
-			renderHds("replies", res);
-			//printPage(pageMaker);
-		}
-		
-	});
-}
 
 
 
-function printPage(pageMaker){
-	let str = "";
-		tempPage = 0;
-	if(pageMaker.prev){
-		tempPage = pageMaker.startPage - 1;
-		str = `<li><a href="#" onclick="listPage(tempPage)" data-page="${tmpPage}">&lt;&lt;</a></li>`;
-	}
-	//현재 페이지
-	let currentPage = pageMaker.cri.page;
-	
-	for(let i = pageMaker.startPage; i <= pageMaker.endPage; i++){
-		str += `<li><a href="#" onclick="listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page="${i}">${i}</a></li>`;
-	}
-	
-	if(pageMaker.next){
-		tempPage = pageMaker.nextPage +1;
-		str += `<li><a href="#" onclick="listPage(tempPage)" data-page="${tempPage}">&gt;&gt;</a></li>`;
-	}
-	
-	$('ul#pagination').html(str);
-	
-}
 function getValidData($replyer, $replytext){
 	let errorFocus = null,
 		replyer = $replyer.val(),
@@ -133,24 +160,6 @@ function getValidData($replyer, $replytext){
 	return {replyer: replyer, replytext: replytext};
 }
 
-function sendAjax(url, fn,  method, jsonData){
-	let options = {
-						method: method || 'GET',
-						url: url,
-						contentType: "application/json"
-				   };
-	//jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
-	if(jsonData){
-		options.data = JSON.stringify(jsonData);
-	}
-	$.ajax(options).always((responseText, statusText, ajaxResult) =>{
-		let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
-		fn(isSuccess,responseText);
-		if(!isSuccess){
-			alert("오류가 발생하였습니다. (errorMessage:" + responseText + ")");
-		}
-	})
-}
 
 function modClicked(btn){
 	let $btn = $(btn),
@@ -196,3 +205,4 @@ var truncSpace = function(str){
 	}
 	return str.replace(/[\n\r\t]/g,'').trim();
 };
+*/

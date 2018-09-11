@@ -15,5 +15,13 @@ let renderHds = (tid, jsonData, tag) => {
 	let $tmpl = $('#'+tid);
 	let html = Templates[tid](jsonData);
 	let cssClass = $tmpl.attr('class') || "";
-	$tmpl.replaceWith(`<${tag} class="${cssClass}">` + html + `</${tag}>`)
+	$tmpl.replaceWith(`<${tag} id="${tid}" class="${cssClass}">` + html + `</${tag}>`)
 };
+
+Handlebars.registerHelper('eq', function(a, b){
+	return a == b;
+})
+
+Handlebars.registerHelper('fromNow', function(dt){
+	return moment(dt).fromNow();
+})

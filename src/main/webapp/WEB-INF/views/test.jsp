@@ -31,7 +31,7 @@
 			내용 : <textarea name="replytext" id="newReplyText" cols="30" rows="3"></textarea>
 		</div>
 		<button id="btnReplyAdd" class="btn btn-primary">등록</button>
-		<!--  <button id="btnShowJson" class="btn btn-warning">댓글전체JSON</button>-->
+		<button id="btnReplyAutoAdd" onclick="ReplyAutoAdd()" class="btn btn-warning">댓글 자동등록</button>
 	</div>
 	
 	<div id="modDiv">
@@ -54,14 +54,7 @@ $(function(){
 	listPage(1);
 	$('#btnReplyAdd').click(function(){
 		registerReply();
-	})
-	/*
-		$('#h2-title').on('click',listAll);
-		
-		$('#btnShowJson').click(function(){
-			showJson();
-		})
-	*/
+	})	
 });
 </script>
 </body>
