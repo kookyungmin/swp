@@ -1,18 +1,18 @@
-let gBno = 0;
+const URL = "/replies/"
+let gBno = 0,
+	gPage = 0, 
+	gIsEdit = false, //댓글 수정 중인지 아닌 지 확인
+	gRno = 0;
 
-let workingReplyText ="",
-	$workingReply = null,
-	workingRno = 0,
-	workingPage = 0;
 
 function replyListPage(page, bno){
 	gBno = bno || gBno;
-	page = page || 1;
-	listUrl = "/replies/all/" + gBno + "/" + page;
+	gPage = page || gPage || 1;
+	listUrl = URL + "all/" + gBno + "/" + gPage;
 	sendAjax(listUrl, (isSuccess, res)=>{
 		if(isSuccess){
 			res.pageData = makePageData(res.pageMaker);
-			res.currentPage = page;
+			res.currentPage = gPage;
 			renderHds("replies", res);
 		}
 		
@@ -43,27 +43,57 @@ function makePageData(pageMaker){
 }
 
 
-
-
-
-
-
-function registerReply(){
-	const REGIST_URL = "/replies";
-	
-	let jsonData = getValidData($('#newReplyWriter'), $('#newReplyText'));
-	if(!jsonData){
-		return;
-	}
-	jsonData.bno = gBno;
-	sendAjax(REGIST_URL, (isSuccess, res) => {
-		if(isSuccess){
-			alert("등록이 완료 되었습니다.");
-			replyListPage(1);
-		}else{
-			console.debug("Error on registerReply>>",res);
+function editReply(rno, replyer, replytext){
+	event.preventDefault(); //a 태그의 화면전환을 막음
+	gRno = rno;
+	gIsEdit = !!rno; //rno 값이 들어 있으면 gIsEdit 를 true
+	renderHds("myModal", {
+			gIsEdit : gIsEdit,
+			replyer : replyer,
+			replytext : replytext
 		}
-	} , 'POST', jsonData);
+	);
+	$('#myModal').modal();
+}
+
+function save(){
+	let jsonData = getValidData($('#replyer'), $('#replytext'));
+	
+	if(!gIsEdit)
+		jsonData.bno = gBno;
+	let url = gIsEdit ? URL + gRno :  URL,
+		method = gIsEdit ? 'PATCH' : 'POST';
+	
+	sendAjax(url, (isSuccess, res) =>{
+		if(isSuccess){
+			let resultMsg = gIsEdit ? gRno + "번 댓글이 수정되었습니다." : "댓글이 등록되었습니다.";
+			alert(resultMsg);
+			replyListPage(gIsEdit ? gPage : 1);
+			closeMod();
+		}else{
+			console.debug("Error on updateReply>>", res);
+		}
+	},method ,jsonData);
+}
+
+function removeReply(){
+	if(!confirm("Are u sure??")) return;
+	
+	sendAjax(URL+gRno, (isSuccess, res) => {
+		if(isSuccess){
+			alert(gRno+"번 댓글이 삭제완료되었습니다.");
+			replyListPage();
+			closeMod();
+		} else{
+			console.debug("Error on removeReply>>",res);
+		}
+	}, 'DELETE');
+}
+
+function closeMod(){
+	gRno = 0;
+	$('#myModal').modal('hide');
+	
 }
 
 function sendAjax(url, fn,  method, jsonData){
@@ -84,66 +114,14 @@ function sendAjax(url, fn,  method, jsonData){
 		}
 	})
 }
-/*
-function editReply(){
-	let editedReplyText = $('#replycontext').val();
-	
-	let jsonData = { replytext: editedReplyText };
-	sendAjax("/replies/"+workingRno, (isSuccess, res) =>{
-		if(isSuccess){
-			alert(workingRno+"번 댓글이 수정되었습니다.");
-			$workingReply.find('span').text(editedReplyText);
-			closeMod();
-		}else{
-			console.debug("Error on updateReply>>", res);
-		}
-	},'PUT',jsonData);
-}
-
-function removeReply(){
-	if(!confirm("Are u sure??")) return;
-	
-	sendAjax("/replies/"+workingRno, (isSuccess, res) => {
-		if(isSuccess){
-			alert(workingRno+"번 댓글이 삭제완료되었습니다.");
-			workingPage = $('.active').data().page;
-			console.log(workingPage);
-			replyListPage(workingPage);
-			closeMod();
-		} else{
-			console.debug("Error on removeReply>>",res);
-		}
-	}, 'DELETE');
-}
-
-function closeMod(){
-	let $modDiv = $("#modDiv");
-	workingRno = 0;
-	workingPage = 0;
-	$('#replytext').text('');
-	$modDiv.hide('slow');
-	$('#btnModReply').hide();
-	
-}
-
-function replyContextChange(){
-	if($('#replycontext').val() !== workingReplyText){
-		$('#btnModReply').show();
-	}else{
-		$('#btnModReply').hide();
-	}
-}
-
-
-
 
 function getValidData($replyer, $replytext){
 	let errorFocus = null,
-		replyer = $replyer.val(),
-		replytext = $replytext.val(),
-		errorMsg = "";
-
-	if(!replyer){
+	replyer = $replyer.val(),
+	replytext = $replytext.val(),
+	errorMsg = "";
+	
+	if(!gIsEdit && !replyer){ //댓글 등록 중이고 작성자가 입력 안되어 있으면
 		errorMsg = "작성자를 입력하세요.";
 		$errorFocus = $replyer;
 	} else if(!replytext){
@@ -161,48 +139,6 @@ function getValidData($replyer, $replytext){
 }
 
 
-function modClicked(btn){
-	let $btn = $(btn),
-	$reply = $btn.parent(),
-	rno = $reply.data('rno');
-	replytext = truncSpace($reply.find('span').text());
-	$('#replycontext').val(replytext);
-	$('#modDiv').show('slow');
-	workingRno = rno;
-	workingReplyText = replytext;
-	$workingReply = $reply;
-}
-
-function showJson(){
-	let result = [];
-	$('#replies li').each ( (idx, li) => {
-		let $li = $(li),
-			rno = $li.data('rno')
-			replyer = $li.data('replyer')
-			replytext = truncSpace($li.text()); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈
-		result.push({
-			rno: rno,
-			replyer: replyer,
-			replytext: replytext
-	    })
-	})
-	result = JSON.stringify(result, null, '  ');
-	console.log(result);
-}
 
 
 
-function movCenterModDiv(){
-	$modDiv = $('#modDiv');
-	$modDiv.css({'margin-left':$modDiv.width()/2*(-1)});
-	$modDiv.css({'margin-top':$modDiv.height()/2*(-1)});
-}
-
-
-var truncSpace = function(str){
-	if(!str){
-		return "";
-	}
-	return str.replace(/[\n\r\t]/g,'').trim();
-};
-*/

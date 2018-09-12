@@ -36,14 +36,15 @@
 <script id="replies" class="well mt20" type="text/x-handlebars-template">
 	<ul class="list-group">
 		{{#each list}}
-		  <li class="list-group-item">
+		  <a href="#" class="list-group-item" onclick="editReply({{rno}},'{{replyer}}','{{replytext}}')">
 		  	{{replytext}}
-		    <small class="text-muted ml20"><i class="fa fa-user">{{replyer}}</i></small>
-		    <small class="text-muted pull-right">{{fromNow regdate}}</small>
-		  </li>
+		  	<small class="text-muted pull-right">{{fromNow regdate}} <i class="fa fa-user ml20">{{replyer}}</i></small>
+		  </a>
 		{{/each}}
 	</ul>
-
+	<button type="button" onclick="editReply()" class="btn btn-primary btn-sm">
+ 		댓글 등록
+	</button>
 	<div class="text-center">
 		<nav aria-label="pagination">
 			<ul class="pagination">
@@ -74,36 +75,36 @@
 			</ul>
 		</nav>
 	</div>
-	
 </script>
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
- 댓글 등록
-</button>
-
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<script class="modal fade" id="myModal" type="text/x-handlebars-template">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        	<span aria-hidden="true">
+        		&times;
+        	</span>
+        </button>
         <h4 class="modal-title" id="myModalLabel">댓글 수정</h4>
       </div>
       <div class="modal-body">
       	<div>
-      		작성자 : <input type="text" name="replyer" id="newReplyWriter" class="form-control"/>
+      		작성자 : <input type="text" name="replyer" id="replyer" value="{{replyer}}" class="form-control" {{#if gIsEdit}}readonly{{/if}} />
       	</div>
       	<div>
-      		내용 : <textarea name="replytext" id="newReplyText" cols="30" rows="3" class="form-control"></textarea>
+      		내용 : <textarea name="replytext" id="replytext" cols="30" rows="3" class="form-control">{{replytext}}</textarea>
       	</div>	
       </div>
       <div class="modal-footer">
-        <button onclick="editReply()" id="btnModReply" class="btn">수정</button>
-		<button onclick="removeReply()" id="btnDelReply" class="btn">삭제</button>
+        <button onclick="save()" id="btnModReply" class="btn">{{#if gIsEdit}}수정{{else}}등록{{/if}}</button>
+        {{#if gIsEdit}}
+			<button onclick="removeReply()" id="btnDelReply" class="btn">삭제</button>
+		{{/if}}
 		<button onclick="closeMod()" id="btnCloseReply" class="btn">닫기</button>
       </div>
     </div>
   </div>
-</div>
+</script>
 
 <script src="/resources/handlebars-v4.0.12.js"></script>
 <script src="/resources/moment-min.js"></script>
@@ -112,10 +113,8 @@
 	
 <script>
 	var result = '${result}';
-	$(function(){
-		
+	$(function(){		
 		replyListPage(1, ${boardVO.bno});
-		
 		
 		$('#btn-remove').click(function(){
 			if(confirm("Are u sure?")){
