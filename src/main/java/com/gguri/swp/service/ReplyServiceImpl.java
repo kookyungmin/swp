@@ -44,7 +44,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public BoardVO read(Integer rno) {
+	public ReplyVO read(Integer rno) {
 		return replyDAO.read(rno);
 	}
 	

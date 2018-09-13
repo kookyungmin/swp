@@ -55,6 +55,7 @@ function editReply(rno, replyer, replytext){
 			replytext : replytext
 		}
 	);
+	$('#btnModReply').hide();
 	$('#myModal').modal();
 }
 
@@ -68,7 +69,7 @@ function save(){
 	
 	sendAjax(url, (isSuccess, res) =>{
 		if(isSuccess){
-			let resultMsg = gIsEdit ? gRno + "번 댓글이 수정되었습니다." : "댓글이 등록되었습니다.";
+			let resultMsg = gIsEdit ? "댓글이 수정되었습니다." : "댓글이 등록되었습니다.";
 			alert(resultMsg);
 			replyListPage(gIsEdit ? gPage : 1);
 			closeMod();
@@ -136,6 +137,18 @@ function checkEdit(){
 	}else{
 		$('#btnModReply').show();
 	}
+}
+
+//추가 
+function readReply(rno){
+	let url = URL + rno;
+	sendAjax(url, (isSuccess,res) => {
+		if(isSuccess){
+			console.debug("read success :",res);
+		} else{
+			console.debug("Error on removeReply>>",res);
+		}
+	}, 'GET');
 }
 
 

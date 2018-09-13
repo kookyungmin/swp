@@ -110,15 +110,14 @@
 
 <script src="/resources/handlebars-v4.0.12.js"></script>
 <script src="/resources/moment-min.js"></script>
-<script src="/resources/test/hbs1.js"></script>
+<script src="/resources/hbs1/hbs1.js"></script>
 <script src="/resources/reply.js"></script>
+<script src="/resources/qtest/replytest.js"></script>
 	
 <script>
 	var result = '${result}';
 	$(function(){
-		$('#btnModReply').hide();
 		replyListPage(1, ${boardVO.bno});
-		
 		$('#btn-remove').click(function(){
 			if(confirm("Are u sure?")){
 				//삭제 버튼 링크 수정

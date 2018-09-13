@@ -55,11 +55,12 @@ public class ReplyController {
 	}
 	
 	@RequestMapping(value = "/{rno}", method = RequestMethod.GET)
-	public ResponseEntity<BoardVO> read(@PathVariable("rno") Integer rno){
+	public ResponseEntity<ReplyVO> read(@PathVariable("rno") Integer rno){
 		logger.debug("ReplyRead>>{}", rno);
 		try {
-			BoardVO board = service.read(rno);
-			return new ResponseEntity<>(board, HttpStatus.OK);
+			ReplyVO reply = service.read(rno);
+			logger.debug("ReplyRegister>>{}", reply.toString());
+			return new ResponseEntity<>(reply, HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

@@ -5,7 +5,6 @@
 <div id="qunit-fixture"></div>
 
 <script src="/resources/qtest/qunit.js"></script>
-<script src="/resources/qtest/replytest.js"></script>
 <link rel="stylesheet" href="/resources/qtest/qunit.css">
 
 

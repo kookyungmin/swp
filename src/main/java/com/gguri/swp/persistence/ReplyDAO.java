@@ -18,5 +18,5 @@ public interface ReplyDAO {
 
 	int getToalCount(Integer bno);
 
-	BoardVO read(Integer rno);
+	ReplyVO read(Integer rno);
 }
