@@ -2,6 +2,7 @@ package com.gguri.swp.persistence;
 
 import java.util.List;
 
+import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.ReplyVO;
 
@@ -16,4 +17,6 @@ public interface ReplyDAO {
 	List<ReplyVO> listPage(Integer bno, Criteria cri) throws Exception;
 
 	int getToalCount(Integer bno);
+
+	BoardVO read(Integer rno);
 }

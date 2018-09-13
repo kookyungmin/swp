@@ -2,6 +2,7 @@ package com.gguri.swp.service;
 
 import java.util.List;
 
+import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.ReplyVO;
 
@@ -16,4 +17,6 @@ public interface ReplyService {
 	List<ReplyVO> listReplyPage(Integer bno, Criteria cri) throws Exception;
 	
 	int getTotalCount(Integer bno) throws Exception;
+
+	BoardVO read(Integer rno);
 }

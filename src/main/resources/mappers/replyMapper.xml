@@ -34,5 +34,10 @@
 		from reply
 		where bno = #{bno}
 	</select>
+	<select id="read" resultType="ReplyVO">
+		select *
+		from reply
+		where rno = #{rno}
+	</select>
 	
 </mapper>

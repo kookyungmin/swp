@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.ReplyVO;
 
@@ -24,6 +25,7 @@ public class ReplyDAOImpl implements ReplyDAO{
 	private static final String DELETE = NS + ".delete";
 	private static final String LISTPAGE = NS + ".listPage";
 	private static final String GETTOTALCOUNT = NS + ".getTotalCount";
+	private static final String READ = NS + ".read";
 	
 	
 	@Override
@@ -58,6 +60,11 @@ public class ReplyDAOImpl implements ReplyDAO{
 	@Override
 	public int getToalCount(Integer bno) {
 		return session.selectOne(GETTOTALCOUNT, bno);
+	}
+
+	@Override
+	public BoardVO read(Integer rno) {
+		return session.selectOne(READ, rno);
 	}
 
 }

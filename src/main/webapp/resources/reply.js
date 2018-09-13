@@ -2,7 +2,8 @@ const URL = "/replies/"
 let gBno = 0,
 	gPage = 0, 
 	gIsEdit = false, //댓글 수정 중인지 아닌 지 확인
-	gRno = 0;
+	gRno = 0,
+	gReplyText = "";
 
 
 function replyListPage(page, bno){
@@ -10,6 +11,7 @@ function replyListPage(page, bno){
 	gPage = page || gPage || 1;
 	listUrl = URL + "all/" + gBno + "/" + gPage;
 	sendAjax(listUrl, (isSuccess, res)=>{
+		console.debug(res);
 		if(isSuccess){
 			res.pageData = makePageData(res.pageMaker);
 			res.currentPage = gPage;
@@ -37,7 +39,6 @@ function makePageData(pageMaker){
 	if(pageMaker.next){
 		pageData.nextPage = pageMaker.endPage +1;
 	}
-	
 	return pageData;
 	
 }
@@ -47,6 +48,7 @@ function editReply(rno, replyer, replytext){
 	event.preventDefault(); //a 태그의 화면전환을 막음
 	gRno = rno;
 	gIsEdit = !!rno; //rno 값이 들어 있으면 gIsEdit 를 true
+	gReplyText = replytext;
 	renderHds("myModal", {
 			gIsEdit : gIsEdit,
 			replyer : replyer,
@@ -92,6 +94,7 @@ function removeReply(){
 
 function closeMod(){
 	gRno = 0;
+	gReplyText = null;
 	$('#myModal').modal('hide');
 	
 }
@@ -116,29 +119,23 @@ function sendAjax(url, fn,  method, jsonData){
 }
 
 function getValidData($replyer, $replytext){
-	let errorFocus = null,
 	replyer = $replyer.val(),
-	replytext = $replytext.val(),
-	errorMsg = "";
-	
-	if(!gIsEdit && !replyer){ //댓글 등록 중이고 작성자가 입력 안되어 있으면
-		errorMsg = "작성자를 입력하세요.";
-		$errorFocus = $replyer;
-	} else if(!replytext){
-		errorMsg = "내용을 입력하세요";
-		$errorFocus = $replytext;
-	}
-	
-	if(errorMsg){
-		alert(errorMsg);
-		$errorFocus.focus();
-		return;
-	}
+	replytext = $replytext.val();
 	
 	return {replyer: replyer, replytext: replytext};
 }
 
 
-
+function checkEdit(){
+	replyer = $('#replyer').val(),
+	replytext = $('#replytext').val();
+	if(!gIsEdit && (!replyer || !replytext)){ //댓글 등록 중이고 작성자가 입력 안되어 있으면
+		$('#btnModReply').hide();
+	}else if(gIsEdit && gReplyText === replytext){
+		$('#btnModReply').hide();
+	}else{
+		$('#btnModReply').show();
+	}
+}
 
 

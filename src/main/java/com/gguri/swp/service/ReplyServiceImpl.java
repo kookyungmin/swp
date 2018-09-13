@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.ReplyVO;
 import com.gguri.swp.persistence.ReplyDAO;
@@ -40,6 +41,11 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public int getTotalCount(Integer bno) throws Exception {
 		return replyDAO.getToalCount(bno);
+	}
+
+	@Override
+	public BoardVO read(Integer rno) {
+		return replyDAO.read(rno);
 	}
 	
 }

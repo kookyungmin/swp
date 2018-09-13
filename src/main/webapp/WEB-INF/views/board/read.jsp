@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@include file="../include/header.jsp" %>
+<%@include file="../qunit.jsp" %>  <!-- QTest -->
 
 <div id="saveOK" class="alert alert-warning hidden" role="alert">글이 수정되었습니다.</div>	
 <section class="content">
@@ -59,7 +60,7 @@
 				{{#each pageData.pages as |page|}}
 					<li class="{{#if (eq ../currentPage page)}}active{{/if}}">
 						<a href="javascript:;" onclick="replyListPage({{page}})" 
-							class=data-page="{{page}}">
+							data-page="{{page}}">
 							{{page}}
 						</a>
 					</li>
@@ -76,6 +77,7 @@
 		</nav>
 	</div>
 </script>
+
 <script class="modal fade" id="myModal" type="text/x-handlebars-template">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -89,10 +91,10 @@
       </div>
       <div class="modal-body">
       	<div>
-      		작성자 : <input type="text" name="replyer" id="replyer" value="{{replyer}}" class="form-control" {{#if gIsEdit}}readonly{{/if}} />
+      		작성자 : <input type="text" name="replyer" id="replyer" value="{{replyer}}" class="form-control" oninput="checkEdit()" {{#if gIsEdit}}readonly{{/if}} />
       	</div>
       	<div>
-      		내용 : <textarea name="replytext" id="replytext" cols="30" rows="3" class="form-control">{{replytext}}</textarea>
+      		내용 : <textarea name="replytext" id="replytext" cols="30" rows="3" class="form-control" oninput="checkEdit()">{{replytext}}</textarea>
       	</div>	
       </div>
       <div class="modal-footer">
@@ -113,7 +115,8 @@
 	
 <script>
 	var result = '${result}';
-	$(function(){		
+	$(function(){
+		$('#btnModReply').hide();
 		replyListPage(1, ${boardVO.bno});
 		
 		$('#btn-remove').click(function(){

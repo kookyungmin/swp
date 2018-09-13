@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.PageMaker;
 import com.gguri.swp.domain.ReplyVO;
@@ -50,6 +51,17 @@ public class ReplyController {
 			return new ResponseEntity<>("ReplyUpdateOK", HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "/{rno}", method = RequestMethod.GET)
+	public ResponseEntity<BoardVO> read(@PathVariable("rno") Integer rno){
+		logger.debug("ReplyRead>>{}", rno);
+		try {
+			BoardVO board = service.read(rno);
+			return new ResponseEntity<>(board, HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
