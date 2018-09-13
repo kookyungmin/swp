@@ -21,27 +21,20 @@ function replyListPage(page, bno){
 	});
 }
 
-function makePageData(pageMaker){
-	let pageData = {
-			prevPage : 0,
-			nextPage : 0,
-			pages: [],
-	};
-	
-	if(pageMaker.prev){
-		pageData.prevPage = pageMaker.startPage - 1;
-	}
-	
-	for(let i = pageMaker.startPage; i <= pageMaker.endPage; i++){
-		pageData.pages.push(i);
-	}
-	
-	if(pageMaker.next){
-		pageData.nextPage = pageMaker.endPage +1;
-	}
-	return pageData;
-	
+
+let readReply = function (rno){
+	let json = {};
+	let url = URL + 6;
+	sendAjax(url, (isSuccess, responseText) =>{
+		if(isSuccess){
+			console.debug("Read success>>", responseText);
+			json.res = responseText;
+		}else{
+			console.debug("Error readReply>>", responseText);
+		}
+	},'GET');
 }
+
 
 
 function editReply(rno, replyer, replytext){
@@ -65,7 +58,7 @@ function save(){
 	if(!gIsEdit)
 		jsonData.bno = gBno;
 	let url = gIsEdit ? URL + gRno :  URL,
-		method = gIsEdit ? 'PATCH' : 'POST';
+			method = gIsEdit ? 'PATCH' : 'POST';
 	
 	sendAjax(url, (isSuccess, res) =>{
 		if(isSuccess){
@@ -93,13 +86,6 @@ function removeReply(){
 	}, 'DELETE');
 }
 
-function closeMod(){
-	gRno = 0;
-	gReplyText = null;
-	$('#myModal').modal('hide');
-	
-}
-
 function sendAjax(url, fn,  method, jsonData){
 	let options = {
 			method: method || 'GET',
@@ -118,6 +104,38 @@ function sendAjax(url, fn,  method, jsonData){
 		}
 	})
 }
+
+function makePageData(pageMaker){
+	let pageData = {
+			prevPage : 0,
+			nextPage : 0,
+			pages: [],
+	};
+	
+	if(pageMaker.prev){
+		pageData.prevPage = pageMaker.startPage - 1;
+	}
+	
+	for(let i = pageMaker.startPage; i <= pageMaker.endPage; i++){
+		pageData.pages.push(i);
+	}
+	
+	if(pageMaker.next){
+		pageData.nextPage = pageMaker.endPage +1;
+	}
+	return pageData;
+	
+}
+
+
+
+function closeMod(){
+	gRno = 0;
+	gReplyText = null;
+	$('#myModal').modal('hide');
+	
+}
+
 
 function getValidData($replyer, $replytext){
 	replyer = $replyer.val(),
@@ -139,16 +157,6 @@ function checkEdit(){
 	}
 }
 
-//추가 
-function readReply(rno){
-	let url = URL + rno;
-	sendAjax(url, (isSuccess,res) => {
-		if(isSuccess){
-			console.debug("read success :",res);
-		} else{
-			console.debug("Error on removeReply>>",res);
-		}
-	}, 'GET');
-}
+
 
 

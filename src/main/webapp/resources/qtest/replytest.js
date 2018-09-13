@@ -32,8 +32,7 @@ QUnit.test("replyListPage test", (assert)=>{
 				assert.equal(res.list.length, 10, "Pass List Count 10!");
 				assert.deepEqual(res.pageData, gTestMakePageResultExpected, "makePageData 통과");
 				//추가
-				console.debug(res.list[0], res.list[0].rno, readReply(269));
-				assert.deepEqual(res.list[0], readReply(res.list[0].rno), "readReply 통과");
+				assert.deepEqual(res.list[0], getReadJson(res.list[0].rno), "readReply 통과");
 			}
 			done();
 		});
