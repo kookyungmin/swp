@@ -2,6 +2,8 @@ package com.gguri.swp.domain;
 
 import java.util.Date;
 
+
+
 public class BoardVO {
 	private Integer bno;
 	private String title;

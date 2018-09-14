@@ -1,10 +1,15 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="../include/header.jsp" %>
-<%@include file="../qunit.jsp" %>  <!-- QTest -->
+
+<c:set var = "isTest" scope = "page" value = "${true}"/> <!-- QQQ -->
+
+<c:if test="${true eq isTest}"> <!-- QQQ -->
+	<%@include file="../qunit.jsp" %>  <!-- QTest -->
+</c:if> <!-- QQQ -->
+
 
 <div id="saveOK" class="alert alert-warning hidden" role="alert">글이 수정되었습니다.</div>	
 <section class="content">
@@ -112,8 +117,10 @@
 <script src="/resources/moment-min.js"></script>
 <script src="/resources/hbs1/hbs1.js"></script>
 <script src="/resources/reply.js"></script>
-<script src="/resources/qtest/replytest.js"></script>
-	
+<c:if test="${true eq isTest}"> <!-- QQQ -->
+	<script src="/resources/qtest/replytest.js"></script>
+</c:if> <!-- QQQ -->
+
 <script>
 	var result = '${result}';
 	$(function(){
@@ -123,8 +130,7 @@
 				//삭제 버튼 링크 수정
 				self.location.href = "/board/remove${cri.makeQuery()}&bno=${boardVO.bno}";
 			}
-		});
-			
+		});			
 		if(result === 'saveOK'){
 			$('#saveOK').removeClass('hidden');
 			$('#saveOK').fadeOut(2000);

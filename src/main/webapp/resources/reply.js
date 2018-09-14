@@ -22,18 +22,17 @@ function replyListPage(page, bno){
 }
 
 
-let readReply = function (rno){
-	let json = {};
-	let url = URL + 6;
+const readReply = (rno) => new Promise((resolves, rejectes) =>{
+	let url = URL + rno;
 	sendAjax(url, (isSuccess, responseText) =>{
+		console.debug("Read success>>", responseText);
 		if(isSuccess){
-			console.debug("Read success>>", responseText);
-			json.res = responseText;
+			resolves(responseText);
 		}else{
-			console.debug("Error readReply>>", responseText);
+			rejects(Error(responseText));
 		}
 	},'GET');
-}
+});
 
 
 
