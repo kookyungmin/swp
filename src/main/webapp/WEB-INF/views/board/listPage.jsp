@@ -51,7 +51,7 @@
 			<td><a href="/board/read${pageMaker.makeQuery(pageMaker.cri.page)}&bno=${boardVO.bno}">${boardVO.title}</a></td>
 			<td>${ boardVO.writer}</td>
 			<td><fmt:formatDate pattern="YYYY-MM-dd HH:mm:ss" value="${ boardVO.regdate}"/></td>
-			<td>${ boardVO.viewcnt}</td>
+			<td><span class="badge bg-green">${boardVO.viewcnt}</span></td>
 		</tr>
 	</c:forEach>
 </table>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="MessageMapper">
+	<!-- 데이터 삽입 -->
+	<insert id="create_message">
+		INSERT INTO message
+			(targetid, sender, message)
+		VALUES
+			(#{targetid}, #{sender}, #{message});
+	</insert>
+	<!-- 데이터 조회 -->
+	<select id="read_message" resultType="MessageVO">
+		SELECT *
+		FROM
+			message
+		WHERE
+			mno = #{mno};
+	</select>
+	<!-- 상태변경 -->
+	<update id="update_message">
+		UPDATE message
+		SET opendate = now()
+		WHERE
+			mno = #{mno};
+	</update>
+</mapper>
