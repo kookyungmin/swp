@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
@@ -18,8 +20,12 @@ public class BoardServiceImpl implements BoardService{
 	public void regist(BoardVO board) throws Exception {
 		boardDAO.create(board);
 	}
+	
+	//대부분의 데이터베이스가 기본으로 사용하는 수준으로, 다른 연결이 커밋하지 않은 데이터는 볼 수 없도록 함
+	@Transactional(isolation=Isolation.READ_COMMITTED)
 	@Override
 	public BoardVO read(Integer bno) throws Exception {
+		boardDAO.updateViewCnt(bno);
 		return boardDAO.read(bno);
 	}
 	@Override
@@ -59,4 +65,5 @@ public class BoardServiceImpl implements BoardService{
 	public int getTotalCount(Criteria cri) throws Exception {
 		return boardDAO.getTotalCount(cri);
 	}
+	
 }

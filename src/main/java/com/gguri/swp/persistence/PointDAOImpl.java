@@ -14,14 +14,14 @@ public class PointDAOImpl implements PointDAO{
 	@Inject
 	private SqlSession session;
 	
-	private static final String NS = "PointerMapper";
+	private static final String NS = "PointMapper";
 	private static final String UPDATE_POINT = NS + ".update_point";
 	
 	@Override
-	public void updatePoint(String uid, int point) throws Exception {
+	public void updatePoint(String uid, int upoint) throws Exception {
 		Map<String, Object>  paramMap = new HashMap<>();
 		paramMap.put("uid", uid);
-		paramMap.put("point", point);
+		paramMap.put("upoint", upoint);
 		session.update(UPDATE_POINT, paramMap);
 		
 	}

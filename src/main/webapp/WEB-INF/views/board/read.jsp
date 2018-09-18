@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="../include/header.jsp" %>
 
-<c:set var = "isTest" scope = "page" value = "${true}"/> <!-- QQQ -->
+<c:set var = "isTest" scope = "page" value = "${false}"/> <!-- QQQ -->
 
 <c:if test="${true eq isTest}"> <!-- QQQ -->
 	<%@include file="../qunit.jsp" %>  <!-- QTest -->
@@ -42,8 +42,8 @@
 <script id="replies" class="well mt20" type="text/x-handlebars-template">
 	<ul class="list-group">
 		{{#each list}}
-		  <a href="#" class="list-group-item" onclick="editReply({{rno}},'{{replyer}}','{{replytext}}')">
-		  	{{replytext}}
+		  <a href="#" class="list-group-item" onclick="editReply({{rno}},'{{replyer}}',`{{replytext}}`)">
+		  	{{{transHtml replytext}}}
 		  	<small class="text-muted pull-right">{{fromNow regdate}} <i class="fa fa-user ml20">{{replyer}}</i></small>
 		  </a>
 		{{/each}}

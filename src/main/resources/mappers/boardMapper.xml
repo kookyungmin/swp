@@ -74,4 +74,18 @@
 		where bno > 0
 		<include refid="searchCondition"></include>
 	</select>
+	
+	<!-- 댓글 수 증가 -->
+	<update id="updateReplyCnt">
+		update board
+		set replycnt = replycnt + #{amount}
+		where bno = #{bno};
+	</update>
+	
+	<!-- 조회 수 증가 -->
+	<update id="updateViewCnt">
+		update board
+		set viewcnt = viewcnt + 1
+		where bno = #{bno};
+	</update>
 </mapper>

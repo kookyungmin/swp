@@ -30,3 +30,8 @@ Handlebars.registerHelper('fromNow', function(dt){
 Handlebars.registerHelper('fullTime', function(dt){
 	return moment(dt).format('llll');
 })
+
+Handlebars.registerHelper('transHtml', function(str){
+	if(!str) return str;
+	return str.replace(/[\r\n]/g,'<br>');
+})

@@ -14,5 +14,6 @@ public interface BoardDAO {
 	 Integer getMaxBno() throws Exception;
 	 List<BoardVO> listPage(Criteria cri) throws Exception;
 	 int getTotalCount(Criteria cri) throws Exception;
-	 
+	 void updateReplycnt(Integer bno, int amount) throws Exception;
+	 void updateViewCnt(Integer bno) throws Exception;
 }

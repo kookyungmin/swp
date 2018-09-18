@@ -1,6 +1,11 @@
 package com.gguri.swp.aop;
 
+import java.util.Arrays;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
@@ -16,5 +21,22 @@ public class SampleAdvice {
 	@Before("execution(* com.gguri.swp.service.MessageService*.*(..))")
 	public void startLog(JoinPoint jp) {
 		logger.info("-------------- startLog ---------------");
+		logger.info("pointcut >> " + jp.getSignature().getName());
+		logger.info(" args >> " + Arrays.toString(jp.getArgs()));
+	}
+	@After("execution(* com.gguri.swp.service.MessageService*.*(..))")
+	public void endLog(JoinPoint jp) {
+		logger.info("-------------- endLog ---------------");
+		logger.info("pointcut >> " + jp.getSignature().getName());
+		logger.info(" args >> " + Arrays.toString(jp.getArgs()));
+	}
+	@Around("execution(* com.gguri.swp.service.MessageService*.*(..))")
+	public Object timeLog(ProceedingJoinPoint pjp) throws Throwable{
+		logger.info("-------------- TimeLog ---------------");
+		long stime = System.currentTimeMillis();
+		Object result = pjp.proceed();
+		logger.info(pjp.getSignature().getName() + ">>" + (System.currentTimeMillis() - stime));
+		logger.info("-------------- TimeLog ---------------");
+		return result;
 	}
 }

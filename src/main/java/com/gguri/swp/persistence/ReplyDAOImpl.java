@@ -26,7 +26,7 @@ public class ReplyDAOImpl implements ReplyDAO{
 	private static final String LISTPAGE = NS + ".listPage";
 	private static final String GETTOTALCOUNT = NS + ".getTotalCount";
 	private static final String READ = NS + ".read";
-	
+	private static final String GETBNO = NS + ".getbno";
 	
 	@Override
 	public void create(ReplyVO reply) throws Exception {
@@ -58,13 +58,18 @@ public class ReplyDAOImpl implements ReplyDAO{
 	}
 
 	@Override
-	public int getToalCount(Integer bno) {
+	public int getToalCount(Integer bno) throws Exception{
 		return session.selectOne(GETTOTALCOUNT, bno);
 	}
 
 	@Override
-	public ReplyVO read(Integer rno) {
+	public ReplyVO read(Integer rno) throws Exception{
 		return session.selectOne(READ, rno);
+	}
+
+	@Override
+	public int getBno(Integer rno) throws Exception{
+		return session.selectOne(GETBNO, rno);
 	}
 
 }

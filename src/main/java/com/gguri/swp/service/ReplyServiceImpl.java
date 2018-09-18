@@ -5,21 +5,27 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.ReplyVO;
+import com.gguri.swp.persistence.BoardDAO;
 import com.gguri.swp.persistence.ReplyDAO;
 
 @Service
 public class ReplyServiceImpl implements ReplyService{
-	@Inject
-	ReplyDAO replyDAO;
 	
+	@Inject
+	private ReplyDAO replyDAO;
+	
+	@Inject
+	private BoardDAO boardDAO;
+	
+	@Transactional
 	@Override
 	public void register(ReplyVO reply) throws Exception {
 		replyDAO.create(reply);
-		
+		boardDAO.updateReplycnt(reply.getBno(), 1);
 	}
 
 	@Override
@@ -27,9 +33,11 @@ public class ReplyServiceImpl implements ReplyService{
 		replyDAO.update(reply);
 		
 	}
-
+	
+	@Transactional
 	@Override
 	public void remove(Integer rno) throws Exception {
+		boardDAO.updateReplycnt(replyDAO.getBno(rno), -1);
 		replyDAO.delete(rno);
 	}
 
@@ -44,7 +52,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public ReplyVO read(Integer rno) {
+	public ReplyVO read(Integer rno) throws Exception{
 		return replyDAO.read(rno);
 	}
 	

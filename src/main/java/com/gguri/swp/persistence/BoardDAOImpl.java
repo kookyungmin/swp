@@ -1,6 +1,8 @@
 package com.gguri.swp.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -23,6 +25,9 @@ public class BoardDAOImpl implements BoardDAO{
 	private static String GETMAXBNO = NS + ".getMaxBno";
 	private static String LISTPAGE = NS + ".listPage";
 	private static String GETTOTALCOUNT = NS + ".gettotalcount";
+	private static String UPDATEREPLYCNT = NS + ".updateReplyCnt";
+	private static String UPDATEVIEWCNT = NS + ".updateViewCnt";
+	
 	@Override
 	public void create(BoardVO board) throws Exception {
 		session.insert(CREATE, board);
@@ -58,6 +63,20 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public int getTotalCount(Criteria cri) throws Exception {
 		return session.selectOne(GETTOTALCOUNT,cri);
+	}
+
+	@Override
+	public void updateReplycnt(Integer bno, int amount) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("bno", bno);
+		map.put("amount",amount);
+		session.update(UPDATEREPLYCNT, map);
+	}
+
+	@Override
+	public void updateViewCnt(Integer bno) throws Exception {
+		session.update(UPDATEVIEWCNT, bno);
+		
 	}
 
 }
