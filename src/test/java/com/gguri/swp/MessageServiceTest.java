@@ -22,7 +22,7 @@ public class MessageServiceTest {
 	private MessageService service;
 	private static Logger logger = LoggerFactory.getLogger(MessageServiceTest.class);
 	
-	@Test
+	@Inject
 	public void testWriteMessage() throws Exception{
 		MessageVO msg = new MessageVO();
 		msg.setSender("user1");
@@ -32,7 +32,7 @@ public class MessageServiceTest {
 		service.addMessage(msg);
 	}
 	
-	@Ignore
+	@Test
 	public void testReadMessage() throws Exception{
 		MessageVO msg = service.readMessage("user1", 1);
 		logger.info("READ >>"+ msg);

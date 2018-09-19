@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class MessageVO {
-	private Integer mid;
+	private Integer mno;
 	private String targetid;
 	private String sender;
 	private String message;
