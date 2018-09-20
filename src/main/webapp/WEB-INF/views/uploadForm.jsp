@@ -31,21 +31,22 @@
 	<iframe width="500" height="600" name="ifr"></iframe>
 
 	<hr />
--->	
+-->
+	
 	<!-- 드래그 파일 올리기 -->
 	<div class="fileDrop">Drop Hear!</div>
 	<div class="uploadListed"></div>
 	
 	<!-- Ajax를 이용한 방법 (jQuery.form.min.js) -->
 	
-	<form action="uploadForm" id="form3" method="post" target="ifr" enctype="multipart/form-data">
-		<input type="hidden" name="type" value="ifr" />
-		<input type="file", name="file" />
+	<form action="uploadAjax" id="form3" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="type" value="ajax" />
+		<input type="file", name="file" id="ajax-file" />
 		<input type="submit" value="Ajax으로 submit"/>		
 	</form>
 	<div id="percent"></div>
 	<div id="status">ready</div>
-	Ajax-SavedFileName: <span id="ajax_upfile"></span>
+	
 
 
 
@@ -69,6 +70,8 @@ window.setUploadedFile = (filename) => {
 	</script>
 </c:if>
 <!-- iframe을 이용한 방법 끝-->
+
+
 <!-- Ajax를 이용한 방법 -->
 <script>
 //드래그 해서 올리기
@@ -83,8 +86,12 @@ $fileDrop.on('dragover dragenter', (evt) =>{
 
 $fileDrop.on('drop', (evt) =>{
 	evt.preventDefault();
-	console.debug("drop>>",evt.originalEvent.dataTransfer.files);
-	
+	let files = evt.originalEvent.dataTransfer.files;
+	console.debug("drop>>",files);
+	$fileDrop.css("border", "none");
+	$fileDrop.html(files[0].names);
+	$('#ajax-file').prop("files", evt.originalEvent.dataTransfer.files);
+	$('#form3').submit();
 });
 
 $fileDrop.on('dragleave', (evt) =>{
@@ -105,7 +112,7 @@ $('#form3').ajaxForm({
 		$percent.html(percentComplete + '%');
 	},
 	complete: function(xhr) {
-        status.html(xhr.responseText);
+        $status.html('Ajax-SavedFileName:' + xhr.responseText);
     }
 });
 
