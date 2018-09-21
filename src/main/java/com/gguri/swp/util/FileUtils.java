@@ -49,7 +49,6 @@ public class FileUtils {
 		}else {
 			uploadedFileName = makeIcon(uploadPath, dirName, fileName);
 		}
-		
 		return uploadedFileName;
 	}
 
@@ -74,7 +73,7 @@ public class FileUtils {
 	 * fileName = abc.b.jpg
 	 * 
 	 */
-	private static String makeThumbnail(String uploadRootPath, String dirName, String fileName) throws IOException {
+	public static String makeThumbnail(String uploadRootPath, String dirName, String fileName) throws IOException {
 		BufferedImage srcImg = ImageIO.read(new File(dirName, fileName));
 		BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC,
 				Scalr.Mode.FIT_TO_HEIGHT, 100);
@@ -111,12 +110,12 @@ public class FileUtils {
 	 * uploadpath\2018\09\20 path 반환
 	 */
 	
-	private static String makeDir(String uploadRootPath, String... paths) throws Exception{
+	public static String makeDir(String uploadRootPath, String... paths) throws Exception{
 		
 		for(String path : paths) {
 			//separator OS에 맞게 '\' 를 붙여줌
 			uploadRootPath += File.separator + path;
-			File tmpFile = new File(path);
+			File tmpFile = new File(uploadRootPath);
 			if (tmpFile.exists()) {
 				continue;
 			}else {

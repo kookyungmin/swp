@@ -30,7 +30,6 @@ public class UploadController {
 				file.getOriginalFilename(),
 				file.getSize(),
 				file.getContentType());
-		
 		try {
 			String savedFileName = FileUtils.uploadFile(file, uploadPath);
 			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);

@@ -2,9 +2,7 @@ package com.gguri.swp;
 
 import javax.inject.Inject;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,20 +26,26 @@ public class BoardDAOTest {
 	private static int maxbno = 0;
 	
 	
-	@Before
+	@Ignore
 	public void getMaxBno() throws Exception{
 		if(maxbno == 0) {
 			boardDAO.create(createBoard("새로운 글을 넣음","새로운 글을 넣음"));
 			maxbno=boardDAO.getMaxBno();
 		}
 	}
+	@Ignore
+	public void createTest() throws Exception {
+		logger.debug("createTest>>>>>");
+		BoardVO board = createBoard("게시물 생성 테스트", "테스트입니다");
+		boardDAO.create(board);
+	}
 	
-	@Test
+	@Ignore
 	public void readTest() throws Exception {
 		logger.info(boardDAO.read(maxbno).toString());
 	}
 	
-	@Test
+	@Ignore
 	public void updateTest() throws Exception{
 		BoardVO board = createBoard("글이 수정됨","수정테스트");
 		board.setBno(maxbno);
@@ -49,7 +53,7 @@ public class BoardDAOTest {
 		didupdate = true;
 	}
 	
-	@After
+	@Ignore
 	public void deleteTest() throws Exception{
 		if (didupdate  == true) {
 			Criteria cri = new Criteria();
@@ -63,7 +67,7 @@ public class BoardDAOTest {
 		BoardVO board = new BoardVO();
 		board.setTitle(title);
 		board.setContent(content);
-		board.setWriter("user00");
+		board.setWriter("꾸리");
 		return board;
 	}
 }
