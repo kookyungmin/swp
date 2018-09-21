@@ -34,19 +34,12 @@ public class UtilTest {
 		String fileName = "test.jpg";
 		String thumbnailName = dirName + File.separator + "s_" + fileName;
 		
-		BufferedImage srcImg = ImageIO.read(new File(dirName, fileName));
-		BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC,
-				Scalr.Mode.FIT_TO_HEIGHT, 100);
+		File old =new File(thumbnailName);
+		if(old.exists())
+			old.delete();
 		
-		File newFile = new File(thumbnailName);
-		String ext = getFileExtension(fileName);
-		ImageIO.write(destImg, ext.toUpperCase(), newFile);
-		
+		String makeThumbnail = FileUtils.makeThumbnail(uploadRootPath, dirName, fileName);
 		assertTrue(new File(thumbnailName).exists());
-		
-		String makeThumbnail = thumbnailName.substring(uploadRootPath.length()).
-				replace(File.separatorChar, '/');
-		logger.debug(makeThumbnail);
 		assertEquals(makeThumbnail,"/2018/09/21/s_test.jpg");
 	}
 	
