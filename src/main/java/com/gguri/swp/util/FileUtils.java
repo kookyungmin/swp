@@ -125,7 +125,7 @@ public class FileUtils {
 		return uploadRootPath;
 	}
 	
-	private static String getFileExtension(String fileName) {
+	public static String getFileExtension(String fileName) {
 		return fileName.substring(fileName.lastIndexOf(".")+1);
 	}
 	

@@ -102,6 +102,7 @@ $fileDrop.on('dragleave', (evt) =>{
 // Ajax를 이용한 방법 
 const $percent = $('#percent'),
 	  $status = $('#status');
+	  $uploadListed = $('.uploadListed');
 $('#form3').ajaxForm({
 	beforeSend : function(){
 		$status.empty();
@@ -112,9 +113,65 @@ $('#form3').ajaxForm({
 		$percent.html(percentComplete + '%');
 	},
 	complete: function(xhr) {
-        $status.html('Ajax-SavedFileName:' + xhr.responseText);
+		let originalName = getOriginalName(xhr.responseText);
+		console.debug(originalName);
+		let uf = '<a href="/displayFile?fileName=' + xhr.responseText + '">' + originalName + '</a>';
+		let ocd = "deleteFile('" + xhr.responseText + "')";
+		uf += '<a href="javascript:;" onclick="' + ocd + '">X</a>';
+        $uploadListed.append('<div>' + uf + '</div>');
+        $status.html('uploaded...!' + uf);
     }
 });
+
+function deleteFile(fileName) {
+	if(!confirm("Are u sure??")) return;
+	
+	sendAjax("/deleteFile?fileName=" + fileName, (isSuccess, res) => {
+		if(isSuccess){
+			alert("삭제 성공");
+			let a = $('div.uploadListed div a[href="/displayFile?fileName=' + fileName +'"]');
+			a.parent().remove();
+		} else{
+			console.debug("Error on deleteFile>>",res);
+		}
+	}, 'DELETE');
+}
+
+function getOriginalName(fileName) {
+	let ret = fileName.substring(fileName.indexOf('_') + 1);
+	if (checkImageType(fileName)) {
+		ret = ret.substring(ret.indexOf('_') + 1);
+		console.debug("image!!!!", ret);
+		return '<img src="/displayFile?fileName=' + fileName + '" alt="' + ret + '">';
+	}else {
+		return ret;
+	}
+}
+
+function checkImageType(fileName) {
+	let pattern = /jpg$|png$|gif$/i; // ^시작 , $끝, i는 대소문자 구분 x
+	return fileName.match(pattern);
+}
+
+function sendAjax(url, fn,  method, jsonData){
+	let options = {
+			method: method || 'GET',
+			url: url,
+			contentType: "application/json"
+	};
+	//jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
+	if(jsonData){
+		options.data = JSON.stringify(jsonData);
+	}
+	$.ajax(options).always((responseText, statusText, ajaxResult) =>{
+		let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
+		fn(isSuccess,responseText);
+		if(!isSuccess){
+			alert("오류가 발생하였습니다. (errorMessage:" + responseText + ")");
+		}
+	})
+}
+
 
 </script>
 </body>
