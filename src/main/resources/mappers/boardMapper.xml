@@ -6,6 +6,12 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="BoardMapper">
+	<!-- 파일 경로 삽입 -->
+	<insert id="addAttach">
+		insert into attach ( bno, fullname )
+		values( last_insert_id(), #{fullname})
+	</insert>
+
 	<!-- 데이터 삽입 -->
 	<insert id="create">
 		insert into board (title, content, writer)

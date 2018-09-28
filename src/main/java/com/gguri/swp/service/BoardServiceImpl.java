@@ -16,9 +16,18 @@ import com.gguri.swp.persistence.BoardDAO;
 public class BoardServiceImpl implements BoardService{
 	@Inject
 	private BoardDAO boardDAO;
+	
+	@Transactional
 	@Override
 	public void regist(BoardVO board) throws Exception {
+		//게시물 삽입
 		boardDAO.create(board);
+		String[] files = board.getFiles();
+		if(files == null) return;
+		
+		for(String file : files) {
+			boardDAO.addAttach(file);
+		}
 	}
 	
 	//대부분의 데이터베이스가 기본으로 사용하는 수준으로, 다른 연결이 커밋하지 않은 데이터는 볼 수 없도록 함

@@ -1,3 +1,11 @@
+.fileDrop{
+	width: 80%;
+	height: 100px;
+	border: 1px dotted gray;
+	background-color: lightslategrey;
+	margin: auto;
+}
+
 .ml20{
 	margin-left:20px;
 }
@@ -9,4 +17,8 @@
 }
 .mb20{
 	margin: 20px;
+}
+
+.text-right{
+	text-alian : right;
 }

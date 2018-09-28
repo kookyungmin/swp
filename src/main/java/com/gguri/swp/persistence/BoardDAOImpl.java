@@ -14,6 +14,7 @@ import com.gguri.swp.domain.Criteria;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
+
 	@Inject
 	private SqlSession session;
 	
@@ -27,6 +28,7 @@ public class BoardDAOImpl implements BoardDAO{
 	private static String GETTOTALCOUNT = NS + ".gettotalcount";
 	private static String UPDATEREPLYCNT = NS + ".updateReplyCnt";
 	private static String UPDATEVIEWCNT = NS + ".updateViewCnt";
+	private static String ADDATTACH = NS + ".addAttach";
 	
 	@Override
 	public void create(BoardVO board) throws Exception {
@@ -76,6 +78,12 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public void updateViewCnt(Integer bno) throws Exception {
 		session.update(UPDATEVIEWCNT, bno);
+		
+	}
+
+	@Override
+	public void addAttach(String file) throws Exception {
+		session.insert(ADDATTACH, file);
 		
 	}
 
