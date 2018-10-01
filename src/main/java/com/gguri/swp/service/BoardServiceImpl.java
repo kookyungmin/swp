@@ -74,5 +74,10 @@ public class BoardServiceImpl implements BoardService{
 	public int getTotalCount(Criteria cri) throws Exception {
 		return boardDAO.getTotalCount(cri);
 	}
+
+	@Override
+	public List<String> getAttach(Integer bno) throws Exception {
+		return boardDAO.getAttach(bno);
+	}
 	
 }

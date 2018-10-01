@@ -35,118 +35,21 @@
 	
 	<div class="box-footer">
 		<!--  파일 첨부 -->
-		<ul class="mailbox-attachments clearfix uploadedList">
-			<script id="template" type="text/x-handlebars-template" class="well">
-			{{#each upFiles}} 
-				<li>
-					<div class="mailbox-attachment-info">
-						<span class="mailbox-attachments-icon has-img">
-							<img src="{{imgsrc}}" alt="Attachement" />
-						</span>
-					</div>
-					<div class="mailbox-attachment-info">
-						<a href="{{getlink}}" class="mailbox-attachment-name">{{filename}}</a>
-						<a href="{{fullName}}" class="btn btn-default btn-xs pull-right delbtn">
-							<i class="fa fa-fw fa-remove"></i>
-						</a>					
-					</div>
-				</li>
-			{{else}}
-				<li>첨부파일이 없습니다.</li>
-			{{/each}}
-			</script>
-		</ul>
+		<%@include file="uploadedFiles.jsp" %>
+		
 		<button type="submit" class="btn btn-primary">Submit</button>
 		<a href="/board/listPage${cri.makeQuery()}" class="btn btn-danger">Cancel</a>
 	</div>
 </form>
 
 <form action="/uploadAjax" id="form_attach" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="type" value="ajax" />
-	<input type="file" name="file" id="ajax-file" class="hidden"/>		
+	<input type="hidden" value="ajax" />
+	<input type="file" name="files" id="ajax-file" class="hidden"/>		
 </form>
 
-
+<script src="/resources/upload.js"></script>
 <script>
-const $fileDrop = $('div.fileDrop');
-
-$fileDrop.on('dragover dragenter', (evt) =>{
-	evt.preventDefault();
-	$fileDrop.css("border", "5px dotted green");
-});
-
-$fileDrop.on('dragleave', (evt) =>{
-	evt.preventDefault();
-	$fileDrop.css("border", "1px dotted grey");
-});
-
-$fileDrop.on('drop', (evt) => {
-	evt.preventDefault();
-	let files = evt.originalEvent.dataTransfer.files;
-	console.debug("drop>>",files);
-	$fileDrop.css("border", "1px dotted grey");
-	$fileDrop.html(files[0].name);
-	$('#ajax-file').prop("files", files);
-	$('#form_attach').submit();
-});
-
-//Ajax를 이용한 방법 
-const $percent = $('#percent'),
-	  $status = $('#status');
-
-let upFiles = [];
-
-$('#form_attach').ajaxForm({
-	beforeSend : function(){
-		let f = $('#ajax-file').val();
-		console.debug("beforeSend!!", f);
-		$status.empty();
-		$percent.html('0%');
-	},
-	
-	uploadProgress: function(event, position, total, percentComplete){
-		$status.html('uploading...');
-		$percent.html(percentComplete + '%');
-	},
-	
-	complete: function(xhr) {
-		let jsonData = getFileInfo(xhr.responseText);
-		upFiles.push(jsonData);
-		$status.html(jsonData.fileName + 'uploaded...!');
-		renderHds('template', {upFiles: upFiles});
-    }
-});
-
-function getFileInfo(fullName) {
-	let fileName, imgsrc, getLink;
-	
-	if (checkImageType(fullName)){
-		imgsrc = "/displayFile?fileName=" + fullName;
-		fileLink = fullName.substring(14); // 원본파일명 (/2018/09/28/s_ 이후 파일명)
-		let front = fullName.substring(0, 12), // /2018/09/28
-			end = fullName.substring(14);
-		getLink = "/dispayFile?fileName=" + front + end; //원본파일 보기 URI
-	} else {
-		imgsrc = "/resources/dist/img/file_icon.png";
-		fileLink = fullName.substring(12);
-		getLink = "/displayFile?fileName" + fullName;
-	}
-	// 실제 파일명
-	fileName = fileLink.substring(fileLink.indexOf('_') + 1);
-	
-	return {
-		fileName: fileName,
-		imgsrc: imgsrc,
-		getLink: getLink,
-		fullName: fullName
-	};
-}
-
-function checkImageType(fileName) {
-	let pattern = /jpg$|png$|gif$/i; // ^시작 , $끝, i는 대소문자 구분 x
-	return fileName.match(pattern);
-}
-
+	gIsEditing = true;
 </script>
 
 <%@include file="../include/footer.jsp" %>

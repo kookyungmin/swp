@@ -15,6 +15,7 @@ import com.gguri.swp.domain.Criteria;
 @Repository
 public class BoardDAOImpl implements BoardDAO{
 
+
 	@Inject
 	private SqlSession session;
 	
@@ -29,6 +30,7 @@ public class BoardDAOImpl implements BoardDAO{
 	private static String UPDATEREPLYCNT = NS + ".updateReplyCnt";
 	private static String UPDATEVIEWCNT = NS + ".updateViewCnt";
 	private static String ADDATTACH = NS + ".addAttach";
+	private static String GETATTACH = NS + ".getAttach";
 	
 	@Override
 	public void create(BoardVO board) throws Exception {
@@ -85,6 +87,11 @@ public class BoardDAOImpl implements BoardDAO{
 	public void addAttach(String file) throws Exception {
 		session.insert(ADDATTACH, file);
 		
+	}
+
+	@Override
+	public List<String> getAttach(Integer bno) throws Exception {
+		return session.selectList(GETATTACH, bno);
 	}
 
 }

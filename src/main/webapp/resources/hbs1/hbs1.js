@@ -1,4 +1,3 @@
-//type이 text/x-handlebars-template인 script들
 const Templates = {};
 $(function(e){
 	const $scripts = $('script[type="text/x-handlebars-template"]');	

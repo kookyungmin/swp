@@ -31,19 +31,19 @@ public class UploadController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 		
-	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST,
-					produces="text/plain; charset=UTF-8")
-	public ResponseEntity<String> uploadFormAjax(MultipartFile file, Model model,
-							   @RequestParam String type) throws Exception{
-		logger.info("uploadForm Ajax.....originalName={}, size={}, contentType={}",
-				file.getOriginalFilename(),
-				file.getSize(),
-				file.getContentType());
+	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST)
+	public ResponseEntity<String[] > uploadFormAjax(MultipartFile[] files, Model model) throws Exception{
+		int len = files == null ? 0 : files.length;
+		logger.info("uploadForm Ajax.....files.length={}", len);
+		
 		try {
-			String savedFileName = FileUtils.uploadFile(file, uploadPath);
-			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
+			String[] uploadedFiles = new String[len];
+			for(int i = 0; i < len; i++) {
+				uploadedFiles[i] = FileUtils.uploadFile(files[i], uploadPath);
+			}
+			return new ResponseEntity<>(uploadedFiles, HttpStatus.CREATED);
 		}catch(Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new String[] { e.getMessage() }, HttpStatus.BAD_REQUEST);
 		}
 	}
 	

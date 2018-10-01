@@ -13,4 +13,5 @@ public interface BoardService {
 	void dummy() throws Exception;
 	List<BoardVO> listPage(Criteria cri) throws Exception;
 	int getTotalCount(Criteria cri) throws Exception;
+	List<String> getAttach(Integer bno) throws Exception;
 }

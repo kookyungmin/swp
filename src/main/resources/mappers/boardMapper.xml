@@ -11,6 +11,13 @@
 		insert into attach ( bno, fullname )
 		values( last_insert_id(), #{fullname})
 	</insert>
+	
+	<!-- 파일 경로 조회 -->
+	<select id="getAttach" resultType="string">
+		select fullname
+		from attach
+		where bno = #{bno}
+	</select>
 
 	<!-- 데이터 삽입 -->
 	<insert id="create">
