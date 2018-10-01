@@ -48,10 +48,6 @@
 	<div id="status">ready</div>
 	
 
-
-
-
-
 <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <script src="/resources/plugins/jQuery/jQuery.form.min.js"></script>
 
@@ -89,7 +85,8 @@ $fileDrop.on('drop', (evt) =>{
 	let files = evt.originalEvent.dataTransfer.files;
 	console.debug("drop>>",files);
 	$fileDrop.css("border", "none");
-	$fileDrop.html(files[0].names);
+	$fileDrop.html(files[0].name);
+	console.debug(files[0].name);
 	$('#ajax-file').prop("files", evt.originalEvent.dataTransfer.files);
 	$('#form3').submit();
 });

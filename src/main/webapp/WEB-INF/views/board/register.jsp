@@ -27,15 +27,9 @@
 		<div class="form-group">
 			<label for="">File Drop Here!</label>
 			<div class="fileDrop text-right">
-				<div id="percent">0%</div>
-				<div id="status">ready</div>
 			</div>
-			
-			<form action="uploadAjax" id="form_attach" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="type" value="ajax" />
-				<input type="file", name="file" id="ajax-file" />		
-			</form>
-			
+			<div id="percent">0%</div>
+			<div id="status">ready</div>
 		</div>
 	</div>
 	
@@ -62,11 +56,16 @@
 			{{/each}}
 			</script>
 		</ul>
-		
 		<button type="submit" class="btn btn-primary">Submit</button>
 		<a href="/board/listPage${cri.makeQuery()}" class="btn btn-danger">Cancel</a>
 	</div>
 </form>
+
+<form action="/uploadAjax" id="form_attach" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="type" value="ajax" />
+	<input type="file" name="file" id="ajax-file" class="hidden"/>		
+</form>
+
 
 <script>
 const $fileDrop = $('div.fileDrop');
@@ -81,21 +80,26 @@ $fileDrop.on('dragleave', (evt) =>{
 	$fileDrop.css("border", "1px dotted grey");
 });
 
-$fileDrop.on('drop', (evt) =>{
+$fileDrop.on('drop', (evt) => {
 	evt.preventDefault();
 	let files = evt.originalEvent.dataTransfer.files;
 	console.debug("drop>>",files);
 	$fileDrop.css("border", "1px dotted grey");
-	$fileDrop.html(files[0].names);
-	$('#ajax-file').prop("files", evt.originalEvent.dataTransfer.files);
+	$fileDrop.html(files[0].name);
+	$('#ajax-file').prop("files", files);
 	$('#form_attach').submit();
 });
 
 //Ajax를 이용한 방법 
 const $percent = $('#percent'),
 	  $status = $('#status');
+
+let upFiles = [];
+
 $('#form_attach').ajaxForm({
 	beforeSend : function(){
+		let f = $('#ajax-file').val();
+		console.debug("beforeSend!!", f);
 		$status.empty();
 		$percent.html('0%');
 	},
@@ -107,8 +111,9 @@ $('#form_attach').ajaxForm({
 	
 	complete: function(xhr) {
 		let jsonData = getFileInfo(xhr.responseText);
+		upFiles.push(jsonData);
 		$status.html(jsonData.fileName + 'uploaded...!');
-		renderHbs('template', {upFiles: [ jsonData ]});
+		renderHds('template', {upFiles: upFiles});
     }
 });
 
@@ -122,7 +127,7 @@ function getFileInfo(fullName) {
 			end = fullName.substring(14);
 		getLink = "/dispayFile?fileName=" + front + end; //원본파일 보기 URI
 	} else {
-		imgsrc = "/resources/dist/img/file.png";
+		imgsrc = "/resources/dist/img/file_icon.png";
 		fileLink = fullName.substring(12);
 		getLink = "/displayFile?fileName" + fullName;
 	}

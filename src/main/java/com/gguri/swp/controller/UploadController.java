@@ -58,7 +58,7 @@ public class UploadController {
 			String formatName = FileUtils.getFileExtension(fileName);
 			MediaType mType = FileUtils.getMediaType(formatName);
 			HttpHeaders headers = new HttpHeaders();
-			if (mType != null) {
+			if (mType != null) { //이미지인 경우
 				headers.setContentType(mType);
 			} else {
 				fileName = fileName.substring(fileName.indexOf("_") + 1);
