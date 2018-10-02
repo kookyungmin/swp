@@ -22,6 +22,10 @@
 	<delete id="delete">
 		delete from reply where rno = #{rno}
 	</delete>
+	<delete id="deleteAll">
+		delete from reply where bno = #{bno}
+	</delete>
+	
 	<select id="listPage" resultType="ReplyVO">
 		select *
 		from reply

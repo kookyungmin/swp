@@ -43,13 +43,7 @@
 </form>
 
 <form action="/uploadAjax" id="form_attach" method="post" enctype="multipart/form-data">
-	<input type="hidden" value="ajax" />
 	<input type="file" name="files" id="ajax-file" class="hidden"/>		
 </form>
-
-<script src="/resources/upload.js"></script>
-<script>
-	gIsEditing = true;
-</script>
 
 <%@include file="../include/footer.jsp" %>

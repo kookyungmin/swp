@@ -59,7 +59,10 @@ $('#form_attach').ajaxForm({
     }
 });
 
-let gIsEditing = false;
+let gUri = window.location.pathname,
+	gIsRegister = gUri.indexOf('/register') !== -1,
+	gIsUpdate = gUri.indexOf('/update') !== -1,
+	gIsEditing = gIsRegister || gIsUpdate;
 
 function getFileInfo(fullName) {
 	let fileName, imgsrc, getLink;
@@ -89,11 +92,16 @@ function getFileInfo(fullName) {
 	};
 }
 
-function deleteFile(fullName) {
+function deleteFile(fullName, bno) {
 	let fileInfo = getFileInfo(fullName);
 	
-	if(!confirm("Are u sure??")) return;
-	sendAjax("/deleteFile?fileName=" + fullName, (isSuccess, res) => {
+	if(!confirm("삭제된 파일은 다시 복구되지 않습니다. 그래도 삭제하시겠습니까??")) return;
+	
+	let url = "/deleteFile?fileName=" + fullName;
+	if(bno){
+		url += "&bno=" + bno;
+	}
+	sendAjax(url, (isSuccess, res) => {
 		if(isSuccess){
 			alert("삭제 성공");
 			$('li#' + fileInfo.fileId).remove();

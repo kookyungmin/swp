@@ -14,4 +14,6 @@ public interface BoardService {
 	List<BoardVO> listPage(Criteria cri) throws Exception;
 	int getTotalCount(Criteria cri) throws Exception;
 	List<String> getAttach(Integer bno) throws Exception;
+	void deleteAttach(String fileName) throws Exception;
+	void appendAttach(String[] fullNames, Integer bno) throws Exception;
 }

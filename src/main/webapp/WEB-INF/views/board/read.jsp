@@ -117,7 +117,6 @@
 <c:if test="${true eq isTest}"> <!-- QQQ -->
 	<script src="/resources/qtest/replytest.js"></script>
 </c:if> <!-- QQQ -->
-<script src="/resources/upload.js"></script>
 
 <script>
 	var result = '${result}';
@@ -134,17 +133,6 @@
 			$('#saveOK').fadeOut(2000);
 		}
 	});
-	sendAjax("/board/getAttach/${boardVO.bno}" , (isSuccess, res) => {
-		if(isSuccess){
-			let upFiles = [];
-			res.forEach( rj =>{
-				let jsonData = getFileInfo(rj);
-				upFiles.push(jsonData);
-			})
-			renderHds('template', {upFiles: upFiles});
-		}else{
-			console.debug("Error on getAttach");
-		}	
-	})
+	showAttaches(${boardVO.bno});
 </script>
 <%@include file="../include/footer.jsp" %>

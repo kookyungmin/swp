@@ -14,6 +14,8 @@ public interface ReplyDAO {
 	
 	void delete(Integer rno) throws Exception;
 	
+	void deleteAll(Integer bno) throws Exception;
+	
 	List<ReplyVO> listPage(Integer bno, Criteria cri) throws Exception;
 
 	int getToalCount(Integer bno) throws Exception;

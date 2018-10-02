@@ -6,10 +6,26 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="BoardMapper">
+	<!-- 파일 경로 추가 -->
+	<insert id="appendAttach">
+		insert into attach ( bno, fullname )
+		values( #{bno}, #{fullName})
+	</insert>
+	
+	<!-- 파일 경로 삭제 -->
+	<delete id="deleteAttach">
+		delete from attach
+		where fullname = #{fullName}
+	</delete>
+	<delete id="deleteAllAttach">
+		delete from attach
+		where bno = #{bno}
+	</delete>
+	
 	<!-- 파일 경로 삽입 -->
 	<insert id="addAttach">
 		insert into attach ( bno, fullname )
-		values( last_insert_id(), #{fullname})
+		values( last_insert_id(), #{fullName})
 	</insert>
 	
 	<!-- 파일 경로 조회 -->

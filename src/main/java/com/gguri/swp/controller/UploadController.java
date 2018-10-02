@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -21,10 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gguri.swp.service.BoardService;
 import com.gguri.swp.util.FileUtils;
 
 @Controller
 public class UploadController {
+	
+	@Inject 
+	private BoardService service;
+	
 	//파일을 저장하는 경로
 	@Resource(name = "uploadPath")
 	private String uploadPath;
@@ -32,7 +38,7 @@ public class UploadController {
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 		
 	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST)
-	public ResponseEntity<String[] > uploadFormAjax(MultipartFile[] files, Model model) throws Exception{
+	public ResponseEntity<String[] > uploadFormAjax(MultipartFile[] files, Integer bno) throws Exception{
 		int len = files == null ? 0 : files.length;
 		logger.info("uploadForm Ajax.....files.length={}", len);
 		
@@ -40,6 +46,9 @@ public class UploadController {
 			String[] uploadedFiles = new String[len];
 			for(int i = 0; i < len; i++) {
 				uploadedFiles[i] = FileUtils.uploadFile(files[i], uploadPath);
+			}
+			if(bno != null) {
+				service.appendAttach(uploadedFiles, bno);
 			}
 			return new ResponseEntity<>(uploadedFiles, HttpStatus.CREATED);
 		}catch(Exception e) {
@@ -77,12 +86,15 @@ public class UploadController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/deleteFile", method= RequestMethod.DELETE)
-	public ResponseEntity<String> deleteFile(String fileName) throws Exception{
+	public ResponseEntity<String> deleteFile(String fileName, Integer bno) throws Exception{
 		
-		logger.info("download Ajax.....deleteFile={}", fileName);
-		
+		logger.info("download Ajax.....deleteFile={} bno={}", fileName, bno);
 		
 		try {
+			if(bno != null) {
+				service.deleteAttach(fileName);
+			}
+			
 			boolean isImage = FileUtils.getMediaType(FileUtils.getFileExtension(fileName)) != null;
 			if (isImage) {
 				File thumb = new File(uploadPath + fileName);
@@ -95,6 +107,7 @@ public class UploadController {
 			
 			File file = new File(uploadPath + fileName);
 			file.delete();
+			
 			return new ResponseEntity<>("deleted", HttpStatus.OK);
 		}catch(Exception e) {
 			logger.debug(e.getMessage());

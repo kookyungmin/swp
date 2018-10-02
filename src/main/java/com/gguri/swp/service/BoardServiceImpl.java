@@ -11,11 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.persistence.BoardDAO;
+import com.gguri.swp.persistence.ReplyDAO;
 
 @Service
 public class BoardServiceImpl implements BoardService{
+	
 	@Inject
 	private BoardDAO boardDAO;
+	@Inject
+	private ReplyDAO replyDAO;
 	
 	@Transactional
 	@Override
@@ -42,8 +46,12 @@ public class BoardServiceImpl implements BoardService{
 		boardDAO.update(board);
 		
 	}
+	
+	@Transactional
 	@Override
 	public void remove(Integer bno) throws Exception {
+		boardDAO.deleteAllAttach(bno);
+		replyDAO.deleteAll(bno);
 		boardDAO.delete(bno);
 		
 	}
@@ -78,6 +86,20 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<String> getAttach(Integer bno) throws Exception {
 		return boardDAO.getAttach(bno);
+	}
+
+	@Override
+	public void deleteAttach(String fileName) throws Exception {
+		boardDAO.deleteAttach(fileName);
+		
+	}
+	
+	@Transactional
+	@Override
+	public void appendAttach(String[] fullNames, Integer bno) throws Exception {
+		for(String fullName : fullNames)
+			boardDAO.appendAttach(fullName, bno);
+		
 	}
 	
 }

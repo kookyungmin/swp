@@ -16,6 +16,7 @@ import com.gguri.swp.domain.Criteria;
 public class BoardDAOImpl implements BoardDAO{
 
 
+
 	@Inject
 	private SqlSession session;
 	
@@ -31,6 +32,9 @@ public class BoardDAOImpl implements BoardDAO{
 	private static String UPDATEVIEWCNT = NS + ".updateViewCnt";
 	private static String ADDATTACH = NS + ".addAttach";
 	private static String GETATTACH = NS + ".getAttach";
+	private static String DELETEATTACH = NS + ".deleteAttach";
+	private static String APPENDATTACH = NS + ".appendAttach";
+	private static String DELETEALLATTACH = NS + ".deleteAllAttach";
 	
 	@Override
 	public void create(BoardVO board) throws Exception {
@@ -84,14 +88,35 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public void addAttach(String file) throws Exception {
-		session.insert(ADDATTACH, file);
+	public void addAttach(String fullName) throws Exception {
+		session.insert(ADDATTACH, fullName);
 		
 	}
 
 	@Override
 	public List<String> getAttach(Integer bno) throws Exception {
 		return session.selectList(GETATTACH, bno);
+	}
+
+	@Override
+	public void deleteAttach(String fileName) throws Exception {
+		session.delete(DELETEATTACH, fileName);
+		
+	}
+
+	@Override
+	public void appendAttach(String fullName, Integer bno) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("fullName", fullName);
+		map.put("bno", bno);
+		session.insert(APPENDATTACH, map);
+		
+	}
+
+	@Override
+	public void deleteAllAttach(Integer bno) throws Exception {
+		session.delete(DELETEALLATTACH, bno);
+		
 	}
 
 }

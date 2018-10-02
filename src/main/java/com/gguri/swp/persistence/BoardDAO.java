@@ -16,6 +16,9 @@ public interface BoardDAO {
 	 int getTotalCount(Criteria cri) throws Exception;
 	 void updateReplycnt(Integer bno, int amount) throws Exception;
 	 void updateViewCnt(Integer bno) throws Exception;
-	 void addAttach(String file) throws Exception;
+	 void addAttach(String fullName) throws Exception;
 	 List<String> getAttach(Integer bno) throws Exception;
+	 void deleteAttach(String fileName) throws Exception;
+	 void appendAttach(String fullName, Integer bno) throws Exception;
+	 void deleteAllAttach(Integer bno) throws Exception;
 }

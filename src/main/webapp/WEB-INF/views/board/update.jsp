@@ -25,12 +25,31 @@
 		<div class="form-group">
 			<label for="writer">Writer</label>
 			<input type="text" id="writer" name="writer" class="form-control" value="${boardVO.writer}" readonly="readonly"/>		
-		</div>
-			
+		</div>		
 	</div>
+	
+	<!-- 파일 첨부 -->
+	<div class="form-group">
+		<label for="">File Drop Here!</label>
+		<div class="fileDrop text-right">
+		</div>
+		<div id="percent">0%</div>
+		<div id="status">ready</div>
+	</div>
+	<%@include file="uploadedFiles.jsp" %>
+	
 	<div>
 		<button type="submit" class="btn btn-primary">Save</button>
 		<a href="/board/read?${cri.makeQuery()}&bno=${boardVO.bno}" class="btn btn-danger">Cancel</a>
 	</div>		
 </form>
+
+<form action="/uploadAjax" id="form_attach" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="bno" value="${boardVO.bno}" />
+	<input type="file" name="files" id="ajax-file" class="hidden"/>		
+</form>
+
+<script>
+	showAttaches(${boardVO.bno})
+</script>
 <%@include file="../include/footer.jsp" %>
