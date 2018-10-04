@@ -38,4 +38,22 @@
     	<beans:constructor-arg value="C:\\Users\\Administrator\\Documents\\workspace-sts-3.9.5.RELEASE\\uploads"></beans:constructor-arg>
 	</beans:bean>
 	
+	<!-- 인터셉터 -->
+	<beans:bean id="sampleInterceptor" class="com.gguri.swp.interceptor.SampleInterceptor"></beans:bean>
+	<beans:bean id="loginInterceptor" class="com.gguri.swp.interceptor.LoginInterceptor"></beans:bean>
+
+	<interceptors>
+	   <interceptor>
+	       <mapping path="/board/listPage" />
+	       <beans:ref bean="sampleInterceptor" />
+	   </interceptor>
+	</interceptors>
+	<interceptors>
+	   <interceptor>
+	       <mapping path="/loginPost" />
+	       <beans:ref bean="loginInterceptor" />
+	   </interceptor>
+	</interceptors>
+	
+	
 </beans:beans>

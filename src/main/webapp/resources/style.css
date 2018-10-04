@@ -22,3 +22,11 @@
 .text-right{
 	text-alian : right;
 }
+
+#loginResult{
+	width : 200px;
+	padding : 20px;
+	text-align : center;
+	background-color: pink;
+	
+}
