@@ -15,6 +15,7 @@ function replyListPage(page, bno){
 		if(isSuccess){
 			res.pageData = makePageData(res.pageMaker);
 			res.currentPage = gPage;
+			res.loginUid = res.loginUid;
 			renderHds("replies", res);
 		}
 		
@@ -36,14 +37,19 @@ const readReply = (rno) => new Promise((resolves, rejectes) =>{
 
 
 
-function editReply(rno, replyer, replytext){
+function editReply(loginUid, rno, replyer, replytext){
 	event.preventDefault(); //a 태그의 화면전환을 막음
 	gRno = rno;
 	gIsEdit = !!rno; //rno 값이 들어 있으면 gIsEdit 를 true
 	gReplyText = replytext;
+	
+	if (loginUid && replyer && loginUid !== replyer){
+		alert('본인이 작성한 댓글만 수정 가능합니다!');
+		return;
+	}
 	renderHds("myModal", {
 			gIsEdit : gIsEdit,
-			replyer : replyer,
+			replyer : loginUid || replyer,
 			replytext : replytext
 		}
 	);

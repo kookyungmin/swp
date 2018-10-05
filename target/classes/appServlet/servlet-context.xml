@@ -41,6 +41,7 @@
 	<!-- 인터셉터 -->
 	<beans:bean id="sampleInterceptor" class="com.gguri.swp.interceptor.SampleInterceptor"></beans:bean>
 	<beans:bean id="loginInterceptor" class="com.gguri.swp.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="AuthInterceptor" class="com.gguri.swp.interceptor.AuthInterceptor"></beans:bean>
 
 	<interceptors>
 	   <interceptor>
@@ -52,6 +53,13 @@
 	   <interceptor>
 	       <mapping path="/loginPost" />
 	       <beans:ref bean="loginInterceptor" />
+	   </interceptor>
+	</interceptors>
+	<interceptors>
+	   <interceptor>
+	       <mapping path="/board/*"></mapping>
+	       <mapping path="/replies/*"></mapping>	 
+	       <beans:ref bean="AuthInterceptor" />
 	   </interceptor>
 	</interceptors>
 	

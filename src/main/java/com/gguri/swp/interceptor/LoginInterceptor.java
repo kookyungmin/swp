@@ -1,9 +1,11 @@
 package com.gguri.swp.interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,11 +37,22 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements Sessi
 			throws Exception {
 		
 		HttpSession session = request.getSession();
-		
 		Object user = modelAndView.getModelMap().get("user");
 		logger.debug("postHandle>>>>>>>>>>>>{}" , user);
 		if (user != null) {
 			session.setAttribute(LOGIN, user);
+			if(StringUtils.isNotEmpty(request.getParameter("useCookie"))) {
+				Cookie loginCookie = new Cookie(LOGIN_COOKIE, session.getId());
+				loginCookie.setPath("/");
+				loginCookie.setMaxAge(7 * 24 * 60 * 60);
+				response.addCookie(loginCookie);
+			}
+			String attempted = (String)session.getAttribute(ATTEMPTED);
+			if (StringUtils.isNotEmpty(attempted)) {
+				response.sendRedirect(attempted);
+				session.removeAttribute(ATTEMPTED);
+			}
+			response.sendRedirect("/board/listPage");
 		}
 	}
 }

@@ -1,4 +1,3 @@
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -30,8 +29,10 @@
 	</div>
 	<div>
 		<a href="/board/listPage${cri.makeQuery()}" class="btn btn-primary">LIST ALL</a>
-		<a href="/board/update${cri.makeQuery()}&bno=${boardVO.bno}" class="btn btn-warning">update</a>
-		<button id="btn-remove" class="btn btn-danger">delete</button>
+		<c:if test="${ loginUser.uname eq boardVO.writer }">
+			<a href="/board/update${cri.makeQuery()}&bno=${boardVO.bno}" class="btn btn-warning">update</a>
+			<button id="btn-remove" class="btn btn-danger">delete</button>
+		</c:if>
 	</div>
 </section>
 
@@ -42,15 +43,21 @@
 <script id="replies" class="well mt20" type="text/x-handlebars-template">
 	<ul class="list-group">
 		{{#each list}}
-		  <a href="#" class="list-group-item" onclick="editReply({{rno}},'{{replyer}}',`{{replytext}}`)">
+		  <a href="#" class="list-group-item" onclick="editReply('{{../loginUid}}', {{rno}},'{{replyer}}',`{{replytext}}`)">
 		  	{{{transHtml replytext}}}
 		  	<small class="text-muted pull-right">{{fromNow regdate}} <i class="fa fa-user ml20">{{replyer}}</i></small>
 		  </a>
 		{{/each}}
 	</ul>
-	<button type="button" onclick="editReply()" class="btn btn-primary btn-sm">
- 		댓글 등록
-	</button>
+
+
+	{{#if loginUid}}
+		<button type="button" onclick="editReply('{{loginUid}}')" class="btn btn-primary btn-sm">
+ 			댓글 등록
+		</button>
+	{{/if}}
+
+
 	<div class="text-center">
 		<nav aria-label="pagination">
 			<ul class="pagination">
@@ -96,7 +103,7 @@
       </div>
       <div class="modal-body">
       	<div>
-      		작성자 : <input type="text" name="replyer" id="replyer" value="{{replyer}}" class="form-control" oninput="checkEdit()" {{#if gIsEdit}}readonly{{/if}} />
+      		작성자 : <input type="text" name="replyer" id="replyer" value="{{replyer}}" class="form-control" oninput="checkEdit()" readonly/>
       	</div>
       	<div>
       		내용 : <textarea name="replytext" id="replytext" cols="30" rows="3" class="form-control" oninput="checkEdit()">{{replytext}}</textarea>

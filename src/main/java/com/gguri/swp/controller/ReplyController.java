@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.PageMaker;
 import com.gguri.swp.domain.ReplyVO;
+import com.gguri.swp.domain.UserVO;
+import com.gguri.swp.interceptor.SessionNames;
 import com.gguri.swp.service.ReplyService;
 
 @RestController
@@ -80,7 +82,8 @@ public class ReplyController {
 	
 	@RequestMapping(value = "/all/{bno}/{page}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno,
-														@PathVariable("page") Integer page){
+														@PathVariable("page") Integer page,
+														HttpSession session){
 		logger.debug("ReplyList>>{}", bno);
 		try {
 			Map<String, Object> map = new HashMap<>();
@@ -94,6 +97,10 @@ public class ReplyController {
 			pagemaker.setTotalCount(replyCount);
 			
 			map.put("pageMaker", pagemaker);
+			UserVO loginUser = (UserVO)session.getAttribute(SessionNames.LOGIN);
+			if(loginUser != null) {
+				map.put("loginUid", loginUser.getUid());
+			}
 			
 			return new ResponseEntity<>(map, HttpStatus.OK);
 		} catch(Exception e) {

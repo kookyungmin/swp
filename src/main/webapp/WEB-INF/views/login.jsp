@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
-<%@include file="../include/header.jsp" %>
+<%@include file="include/header.jsp" %>
 
-<form action="/board/loginPost" role="form" method="post">
+<form action="/loginPost" role="form" method="post">
 	<div class="box-body">
 		<div class="form-group">
 			<label for="uid">id</label>
@@ -20,4 +20,4 @@
 	<button type="submit" class="btn btn-primary">Sign In</button>	
 </form>
 
-<%@include file="../include/footer.jsp" %>
+<%@include file="include/footer.jsp" %>

@@ -10,4 +10,14 @@
 		from user
 		where uid = #{uid} and upw = password(#{upw})
 	</select>
+	<update id="keepLogin">
+		update user
+		set sessionkey = #{sessionId}, sessionlimit = #{expire}
+		where uid = #{uid}
+	</update>
+	<select id="checkUserWithSessionKey" resultType="UserVO">
+		select *
+		from user
+		where sessionkey = #{loginCookie} and sessionlimit > now()
+	</select>
 </mapper>

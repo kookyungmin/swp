@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
 
@@ -20,7 +19,7 @@
 		</div>
 		<div class="form-group">
 			<label for="writer">Writer</label>
-			<input type="text" id="writer" name="writer" class="form-control" placeholder="Enter Writer"/>		
+			<input type="text" id="writer" name="writer" class="form-control" placeholder="Enter Writer" readonly value="${ loginUser.uname }"/>		
 		</div>
 		
 		<!-- 파일 첨부 -->
