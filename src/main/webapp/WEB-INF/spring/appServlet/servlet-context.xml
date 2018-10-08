@@ -35,7 +35,7 @@
 	<beans:bean id="uploadPath" 
          class="java.lang.String">
          <!-- upload 폴더 위치 -->
-    	<beans:constructor-arg value="C:\\Users\\Administrator\\Documents\\workspace-sts-3.9.5.RELEASE\\uploads"></beans:constructor-arg>
+    	<beans:constructor-arg value="C:\\Users\\rudal\\Documents\\workspace-sts-3.9.5.RELEASE\\uploads"></beans:constructor-arg>
 	</beans:bean>
 	
 	<!-- 인터셉터 -->

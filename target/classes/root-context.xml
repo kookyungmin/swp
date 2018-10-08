@@ -23,7 +23,7 @@
 <!-- Root Context: defines shared resources visible to all other web components -->
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="com.mysql.jdbc.Driver"></property> 
-    <property name="url" value="jdbc:mysql://35.200.109.72:3306/testdb?useSSL=false"></property>
+    <property name="url" value="jdbc:mysql://35.190.230.48:3306/testdb?useSSL=false"></property>
     <property name="username" value="root"></property>
     <property name="password" value="1234"></property>
 </bean>
