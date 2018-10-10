@@ -127,6 +127,7 @@
 
 <script>
 	var result = '${result}';
+	gIsDirect = true;
 	$(function(){
 		replyListPage(1, ${boardVO.bno});
 		$('#btn-remove').click(function(){

@@ -50,7 +50,8 @@
 	function showAttaches(bno){
 		sendAjax("/board/getAttach/" + bno , (isSuccess, res) => {
 			if(isSuccess){
-				res.forEach( rj =>{
+				res.forEach( rj => {
+					console.debug(rj);
 					let jsonData = getFileInfo(rj);
 					gUpFiles.push(jsonData);
 				})

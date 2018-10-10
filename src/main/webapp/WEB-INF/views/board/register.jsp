@@ -37,11 +37,13 @@
 		<%@include file="uploadedFiles.jsp" %>
 		
 		<button type="submit" class="btn btn-primary">Submit</button>
+		<!-- QQQ 취소처리 -->
 		<a href="/board/listPage${cri.makeQuery()}" class="btn btn-danger">Cancel</a>
 	</div>
 </form>
 
 <form action="/uploadAjax" id="form_attach" method="post" enctype="multipart/form-data">
+	<input name="isDirect" id="isDirect" class="hidden" value="true"/>
 	<input type="file" name="files" id="ajax-file" class="hidden"/>		
 </form>
 

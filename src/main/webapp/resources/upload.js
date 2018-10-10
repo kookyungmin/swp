@@ -1,4 +1,5 @@
 const $fileDrop = $('div.fileDrop');
+let gIsDirect = false;
 
 $fileDrop.on('dragover dragenter', (evt) =>{
 	evt.preventDefault();
@@ -45,7 +46,7 @@ $('#form_attach').ajaxForm({
 		console.debug(resJson);
 		
 		if (xhr.status !== 201){
-			alert("Error on Upload!! (" + resJson[0] + ")");
+			alert("Error on Upload!! (" + resJson + ")");
 			return;
 		}
 	
@@ -66,9 +67,20 @@ let gUri = window.location.pathname,
 
 function getFileInfo(fullName) {
 	let fileName, imgsrc, getLink;
+	let $isDirect = $('#isDirect'),
+		isDirect = $isDirect && $isDirect.length && $isDirect.val() == "true";
+	
+	isDirect = isDirect ? true : gIsDirect;
+	console.debug(isDirect);
+	const uphost = window.location.protocol + "//" + window.location.hostname;
 	
 	if (checkImageType(fullName)){
-		imgsrc = "/displayFile?fileName=" + fullName;
+		
+		if(isDirect){
+			imgsrc = uphost + "/uploads" + fullName;
+		}else{
+			imgsrc = "/displayFile?fileName=" + fullName;
+		}
 		fileLink = fullName.substring(14); // 원본파일명 (/2018/09/28/s_ 이후 파일명)
 		let front = fullName.substring(0, 12), // /2018/09/28
 			end = fullName.substring(14);
@@ -77,6 +89,11 @@ function getFileInfo(fullName) {
 		imgsrc = "/resources/dist/img/file_icon.png";
 		fileLink = fullName.substring(12);
 		getLink = "/displayFile?fileName=" + fullName;
+	}
+	
+	if(isDirect){
+		getLink += "&isDirect=true"
+		console.debug(getLink);
 	}
 	// 실제 파일명
 	fileName = fileLink.substring(fileLink.indexOf('_') + 1);

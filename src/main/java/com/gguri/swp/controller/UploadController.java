@@ -35,17 +35,22 @@ public class UploadController {
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 	
+	@Resource(name = "uploadDirectPath")
+	private String uploadDirectPath;
+	
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 		
 	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST)
-	public ResponseEntity<String[] > uploadFormAjax(MultipartFile[] files, Integer bno) throws Exception{
+	public ResponseEntity<String[] > uploadFormAjax(MultipartFile[] files, Integer bno,
+											        boolean isDirect) throws Exception{
 		int len = files == null ? 0 : files.length;
-		logger.info("uploadForm Ajax.....files.length={}", len);
+		logger.info("uploadForm Ajax.....files.length={} isDirect={}", len, isDirect);
 		
 		try {
 			String[] uploadedFiles = new String[len];
 			for(int i = 0; i < len; i++) {
-				uploadedFiles[i] = FileUtils.uploadFile(files[i], uploadPath);
+				String updir = isDirect ? uploadDirectPath : uploadPath;
+				uploadedFiles[i] = FileUtils.uploadFile(files[i], updir);
 			}
 			if(bno != null) {
 				service.appendAttach(uploadedFiles, bno);
@@ -58,12 +63,13 @@ public class UploadController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/displayFile")
-	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception{
+	public ResponseEntity<byte[]> displayFile(String fileName, boolean isDirect) throws Exception{
 		
-		logger.info("download Ajax.....fileName={}", fileName);
+		logger.info("download Ajax.....fileName={}, isDirect={}", fileName, isDirect);
+		String updir = isDirect ? uploadDirectPath : uploadPath;
 		
 		//경로에 있는 파일을 읽어옴
-		try(InputStream in = new FileInputStream(uploadPath + fileName)) {
+		try(InputStream in = new FileInputStream(updir + fileName)) {
 			String formatName = FileUtils.getFileExtension(fileName);
 			MediaType mType = FileUtils.getMediaType(formatName);
 			HttpHeaders headers = new HttpHeaders();
@@ -106,6 +112,9 @@ public class UploadController {
 			}
 			
 			File file = new File(uploadPath + fileName);
+			if(!file.exists()) {
+				file = new File(uploadDirectPath + fileName);
+			}
 			file.delete();
 			
 			return new ResponseEntity<>("deleted", HttpStatus.OK);

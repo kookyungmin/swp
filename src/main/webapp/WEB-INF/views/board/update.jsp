@@ -45,6 +45,7 @@
 
 <form action="/uploadAjax" id="form_attach" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="bno" value="${boardVO.bno}" />
+	<input name="isDirect" id="isDirect" class="hidden" value="true"/>
 	<input type="file" name="files" id="ajax-file" class="hidden"/>		
 </form>
 
