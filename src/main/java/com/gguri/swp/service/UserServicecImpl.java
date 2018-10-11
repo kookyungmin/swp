@@ -32,4 +32,9 @@ public class UserServicecImpl implements UserService{
 		return userDAO.checkLoginBefore(loginCookie); 
 	}
 
+	@Override
+	public UserVO getBySns(UserVO snsUser) throws Exception {
+		return userDAO.getBySns(snsUser);
+	}
+
 }

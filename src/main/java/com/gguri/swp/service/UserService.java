@@ -9,4 +9,5 @@ public interface UserService {
 	public UserVO login(LoginDTO dto) throws Exception;
 	public void keepLogin(String uid, String sessionId, Date expire) throws Exception;
 	public UserVO checkLoginBefore(String value) throws Exception;
+	public UserVO getBySns(UserVO snsUser) throws Exception;
 }

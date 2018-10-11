@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,8 @@ public class UserDAOImpl implements UserDAO{
 	private static final String LOGIN = NS + ".login";
 	private static final String KEEPLOGIN = NS + ".keepLogin";
 	private static final String CHECKLOGINBEFORE = NS + ".checkUserWithSessionKey";
+	private static final String GETBYSNSGOOGLE = NS + ".getBySnsGoogle";
+	private static final String GETBYSNSNAVER = NS + ".getBySnsNaver";
 	
 	@Inject
 	private SqlSession session;
@@ -43,6 +46,17 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public UserVO checkLoginBefore(String loginCookie) throws Exception {
 		return session.selectOne(CHECKLOGINBEFORE, loginCookie);
+		
+	}
+
+
+	@Override
+	public UserVO getBySns(UserVO snsUser) throws Exception {
+		if(StringUtils.isNotEmpty(snsUser.getNaverId())) {
+			return session.selectOne(GETBYSNSNAVER, snsUser);
+		}else {
+			return session.selectOne(GETBYSNSGOOGLE, snsUser);
+		}
 		
 	}
 }

@@ -19,5 +19,8 @@
 	</div>
 	<button type="submit" class="btn btn-primary">Sign In</button>	
 </form>
-
+<div class="text-center">
+	<a href="${naver_url}"><img src="/resources/img/naverLogin.png" alt="Naver_Login" height="50" width="100"/></a>
+	<a href="${google_url}"><img src="/resources/img/googleLogin.png" alt="Google_Login" height="50" width="100"></a>
+</div>
 <%@include file="include/footer.jsp" %>
