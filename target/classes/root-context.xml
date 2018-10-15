@@ -43,4 +43,6 @@
 </bean>
 
 <tx:annotation-driven />
+<!-- mybatis mapper interface -->
+<mybatis-spring:scan base-package="com.gguri.mapper" />
 </beans>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
+import com.gguri.swp.domain.UserVO;
 
 public interface BoardService {
 	void regist(BoardVO board) throws Exception;
@@ -16,4 +17,7 @@ public interface BoardService {
 	List<String> getAttach(Integer bno) throws Exception;
 	void deleteAttach(String fileName) throws Exception;
 	void appendAttach(String[] fullNames, Integer bno) throws Exception;
+	String getTime();
+	String getUname(String uid);
+	UserVO getUser(String uid);
 }

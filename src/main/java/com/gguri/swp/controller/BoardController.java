@@ -3,6 +3,7 @@ package com.gguri.swp.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
 import com.gguri.swp.domain.PageMaker;
+import com.gguri.swp.domain.UserVO;
+import com.gguri.swp.interceptor.SessionNames;
 import com.gguri.swp.service.BoardService;
 
 @Controller
@@ -110,7 +113,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
-	public void listPage(Criteria cri, Model model) throws Exception{
+	public void listPage(Criteria cri, Model model,
+						 HttpSession session) throws Exception{
 		logger.info("listPage");
 		List<BoardVO> boards = service.listPage(cri);
 		model.addAttribute("list",boards);
@@ -118,6 +122,13 @@ public class BoardController {
 		int totalCount = service.getTotalCount(cri);
 		pageMaker.setTotalCount(totalCount);
 		model.addAttribute("pageMaker", pageMaker);
+		
+		UserVO loginUser = (UserVO)session.getAttribute(SessionNames.LOGIN);
+		if(loginUser != null) {
+			UserVO user = service.getUser(loginUser.getUid());
+			model.addAttribute("user", user);
+		}
+		
 	}
 	
 	@ResponseBody

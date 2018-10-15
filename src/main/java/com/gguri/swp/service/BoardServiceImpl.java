@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gguri.mapper.SampleMapper;
 import com.gguri.swp.domain.BoardVO;
 import com.gguri.swp.domain.Criteria;
+import com.gguri.swp.domain.UserVO;
 import com.gguri.swp.persistence.BoardDAO;
 import com.gguri.swp.persistence.ReplyDAO;
 
@@ -20,6 +22,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 	@Inject
 	private ReplyDAO replyDAO;
+	@Inject
+	private SampleMapper samplemapper;
 	
 	@Transactional
 	@Override
@@ -100,6 +104,21 @@ public class BoardServiceImpl implements BoardService{
 		for(String fullName : fullNames)
 			boardDAO.appendAttach(fullName, bno);
 		
+	}
+
+	@Override
+	public String getTime() {
+		return samplemapper.getTime();
+	}
+
+	@Override
+	public String getUname(String uid) {
+		return samplemapper.getUname(uid);
+	}
+
+	@Override
+	public UserVO getUser(String uid) {
+		return samplemapper.getUser(uid);
 	}
 	
 }

@@ -33,6 +33,12 @@
 	  		<option value="20">20</option>
 		</select>
 	</div>
+	<div>
+		<span>   로그인시간 : ${user.lastlogin}</span>
+		<span>   로그인한유저 : ${user.uname}</span>
+		<span>   접속아이피 : ${user.loginip}</span>
+	</div>
+	
 </div>
 	
 	

@@ -1,6 +1,7 @@
 package com.gguri.swp.domain;
 
-import lombok.Builder;
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +14,6 @@ public class UserVO {
 	private String naverId;
 	private String googleId;
 	private String nickname;
+	private String loginip;
+	private Date lastlogin;
 }
