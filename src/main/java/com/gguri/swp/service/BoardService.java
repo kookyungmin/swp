@@ -17,7 +17,7 @@ public interface BoardService {
 	List<String> getAttach(Integer bno) throws Exception;
 	void deleteAttach(String fileName) throws Exception;
 	void appendAttach(String[] fullNames, Integer bno) throws Exception;
-	String getTime();
-	String getUname(String uid);
-	UserVO getUser(String uid);
+	String getTime() throws Exception;
+	String getUname(String uid) throws Exception;
+	UserVO getUser(String uid) throws Exception;
 }

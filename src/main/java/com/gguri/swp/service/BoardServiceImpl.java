@@ -107,17 +107,17 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public String getTime() {
+	public String getTime() throws Exception{
 		return samplemapper.getTime();
 	}
 
 	@Override
-	public String getUname(String uid) {
+	public String getUname(String uid) throws Exception{
 		return samplemapper.getUname(uid);
 	}
 
 	@Override
-	public UserVO getUser(String uid) {
+	public UserVO getUser(String uid) throws Exception{
 		return samplemapper.getUser(uid);
 	}
 	
