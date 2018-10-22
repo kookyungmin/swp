@@ -34,6 +34,10 @@
 			<button id="btn-remove" class="btn btn-danger">delete</button>
 		</c:if>
 	</div>
+	<div class="well">
+		<input type="text" id="msg" value="1231" />
+		<button id="btnSend" class="btn-primary">sendMessage</button>
+	</div>
 </section>
 
 <%@include file="uploadedFiles.jsp" %>
@@ -140,7 +144,11 @@
 			$('#saveOK').removeClass('hidden');
 			$('#saveOK').fadeOut(2000);
 		}
+		gBoardWriter = $('#writer').val();
 	});
+	
 	showAttaches(${boardVO.bno});
 </script>
+
+
 <%@include file="../include/footer.jsp" %>

@@ -1,5 +1,6 @@
 const URL = "/replies/"
 let gBno = 0,
+	gBoardWriter = null,
 	gPage = 0, 
 	gIsEdit = false, //댓글 수정 중인지 아닌 지 확인
 	gRno = 0,
@@ -71,6 +72,14 @@ function save(){
 			alert(resultMsg);
 			replyListPage(gIsEdit ? gPage : 1);
 			closeMod();
+			//소켓이 연결되었을때
+			if(socket != null){
+				// websocket 보내기 (reply, 댓글작성자, 게시글작성자, 글번호)
+				console.debug("sendMessage>>>" + "reply," + jsonData.replyer + "," +  gBoardWriter + "," + gBno);
+				socket.send("reply," + jsonData.replyer + "," +  gBoardWriter + "," + gBno);
+				
+			}
+			
 		}else{
 			console.debug("Error on updateReply>>", res);
 		}

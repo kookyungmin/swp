@@ -19,7 +19,7 @@
 		</div>
 		<div class="form-group">
 			<label for="writer">Writer</label>
-			<input type="text" id="writer" name="writer" class="form-control" placeholder="Enter Writer" readonly value="${ loginUser.uname }"/>		
+			<input type="text" id="writer" name="writer" class="form-control" placeholder="Enter Writer" readonly value="${ loginUser.uid }"/>		
 		</div>
 		
 		<!-- 파일 첨부 -->

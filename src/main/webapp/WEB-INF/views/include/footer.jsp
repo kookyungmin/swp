@@ -184,5 +184,44 @@
     <script src="/resources/dist/js/app.min.js" type="text/javascript"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/resources/dist/js/demo.js" type="text/javascript"></script>
+    <script>
+	var socket = null;
+		$(function(){
+			connect();
+		})
+		
+		function connect() {
+			var ws = new WebSocket("ws://localhost:8080/replyEcho?bno=99");
+			socket = ws;
+	
+			ws.onopen = function() {
+				console.log('Info: connection opened.');
+			};
+	
+			ws.onmessage = function(event) {
+				console.log("ReceiveMessage:" + event.data + '\n');
+			};
+	
+			ws.onclose = function(event) {
+				console.log('Info: connection closed.');
+				setTimeout(function() {
+					connect();
+				}, 1000); // retry connection!!
+			};
+			ws.onerror = function(event) {
+				console.log('Error: connection error.');
+			};
+		}
+	
+		$('#btnSend').on('click', function(evt) {
+			evt.preventDefault();
+			if (socket.readyState !== 1)
+				return;
+			let msg = $('input#msg').val();
+			socket.send(msg);
+		});
+	
+		connect();
+	</script>
   </body>
 </html>
